@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from functools import lru_cache
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 
+from ..bom import build_bom
+from ..drc import run_drc
 from ..logic.build import build_netlist
 from ..logic.minimize import minimize_equations
 from ..logic.parser import ParseError, parse_equations
@@ -11,7 +13,7 @@ from ..logic.qm import Implicant
 from ..models.catalog import Catalog, load_catalog
 from ..sim.functional import check_equivalence
 from ..techmap.cells import MapOptions
-from ..techmap.mapper import Candidate, map_design
+from ..techmap.mapper import Candidate, MapReport, map_design
 from ..techmap.strategies import STRATEGIES
 from .schemas import (
     AnalyzeRequest,
@@ -91,17 +93,11 @@ def _candidate_out(c: Candidate) -> CandidateOut:
     )
 
 
-@router.post("/map", response_model=MapResponse)
-def map_circuit(req: MapRequest) -> MapResponse:
-    """Mapea a chips 74LS: todas las estrategias, elige por número de ICs (§COSTO-IC)."""
+def _run_map(req: MapRequest) -> MapReport:
     strategies = tuple(req.strategies) if req.strategies else STRATEGIES
     unknown = sorted(set(strategies) - set(STRATEGIES))
     if unknown:
         raise HTTPException(422, f"estrategias desconocidas: {unknown}; válidas: {STRATEGIES}")
-    try:
-        catalog = _catalog()
-    except FileNotFoundError as exc:
-        raise HTTPException(503, "catálogo de chips no disponible") from exc
     options = MapOptions(
         strategies=strategies,
         allow_open_collector=req.allow_open_collector,
@@ -110,12 +106,25 @@ def map_circuit(req: MapRequest) -> MapResponse:
     )
     try:
         equations = parse_equations(req.equations)
-        report = map_design(equations, catalog, req.dont_cares, options)
+        return map_design(equations, _catalog_or_503(), req.dont_cares, options)
     except (ParseError, ValueError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
+
+def _catalog_or_503() -> Catalog:
+    try:
+        return _catalog()
+    except FileNotFoundError as exc:
+        raise HTTPException(503, "catálogo de chips no disponible") from exc
+
+
+@router.post("/map", response_model=MapResponse)
+def map_circuit(req: MapRequest) -> MapResponse:
+    """Mapea a chips 74LS y entrega diseño, DRC y BOM como ejes separados (§EJES)."""
+    report = _run_map(req)
     sel = report.selected
     design = sel.design if sel else None
+    catalog = _catalog_or_503()
     return MapResponse(
         inputs=report.minimization.inputs,
         outputs=report.minimization.table.outputs,
@@ -124,4 +133,23 @@ def map_circuit(req: MapRequest) -> MapResponse:
         design=design,
         connections=design.connections() if design else {},
         warnings=report.warnings,
+        drc=run_drc(design, catalog, req.bom) if design else None,
+        bom=build_bom(design, catalog, req.bom) if design else None,
     )
+
+
+@router.post("/bom/export")
+def export_bom(req: MapRequest, format: str = "csv") -> Response:
+    """BOM del diseño elegido como archivo descargable (``csv`` o ``json``)."""
+    if format not in ("csv", "json"):
+        raise HTTPException(422, "formato válido: csv o json")
+    report = _run_map(req)
+    if report.selected is None or report.selected.design is None:
+        raise HTTPException(422, "ningún candidato es realizable")
+    bom = build_bom(report.selected.design, _catalog_or_503(), req.bom)
+    if format == "csv":
+        body, media = bom.to_csv(), "text/csv; charset=utf-8"
+    else:
+        body, media = bom.model_dump_json(indent=2), "application/json"
+    headers = {"Content-Disposition": f'attachment; filename="bom.{format}"'}
+    return Response(content=body, media_type=media, headers=headers)

@@ -3,7 +3,7 @@
 - **Sección**: §EJES
 - **Estado**: vigente
 - **Fecha**: 2026-10-18
-- **Módulos**: `ttl_designer/sim/functional.py`, `ttl_designer/api/routes.py`
+- **Módulos**: `ttl_designer/sim/functional.py`, `ttl_designer/drc.py`, `ttl_designer/bom.py`, `ttl_designer/api/routes.py`
 - **Tests**: `tests/test_netlist_sim.py`, `tests/test_api.py`
 
 ---
@@ -21,10 +21,10 @@ Tres ejes independientes. Cada uno se reporta por separado y ninguno se deriva d
 
 1. **Corrección lógica**: el netlist implementa la especificación en todas las filas,
    salvo los don't-cares (`check_equivalence`, campo `equivalent` de la API).
-2. **DRC eléctrico** (pendiente): fan-out, entradas flotantes, salidas en corto, lazos,
+2. **DRC eléctrico** (§DRC): fan-out, entradas flotantes, salidas en corto, lazos,
    presupuesto de corriente. Cada hallazgo identifica la compuerta o red y el límite del
    catálogo que excede; si el límite es `null`, el hallazgo es "no evaluable".
-3. **Huecos del BOM** (pendiente): componentes sin número de parte comercial, datos sin
+3. **Huecos del BOM** (§BOM): componentes sin número de parte comercial, datos sin
    verificar heredados del catálogo y decisiones de política aplicadas (pull-ups, desacople).
 
 ## Consecuencias

@@ -13,6 +13,13 @@ from .ast import Const, Expr, Not, Var, make_and, make_or
 
 # Límite de productos intermedios en Petrick antes de caer a cobertura voraz.
 PETRICK_LIMIT = 20_000
+# Límite de cubos por iteración al generar implicantes primos. Una función densa de n
+# variables puede generar hasta 3^n cubos; por encima de esto se rechaza en vez de colgarse.
+CUBE_LIMIT = 200_000
+
+
+class TooLargeError(ValueError):
+    """La función excede los límites de la minimización exacta."""
 
 
 @dataclass(frozen=True, order=True)
@@ -157,6 +164,12 @@ def _prime_implicants(n: int, terms: list[int], trace: QMTrace) -> set[Implicant
                     if merged not in nxt:
                         trace.merges.append((iteration, a, b, merged))
                     nxt.add(merged)
+                    if len(nxt) > CUBE_LIMIT:
+                        raise TooLargeError(
+                            f"la minimización exacta excede {CUBE_LIMIT} cubos en la "
+                            f"iteración {iteration + 1}; simplifica la función o reduce "
+                            "el número de variables"
+                        )
         primes |= current - used
         current = nxt
         iteration += 1

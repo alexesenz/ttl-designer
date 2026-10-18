@@ -55,7 +55,13 @@ def test_map_full_adder_selects_two_ics():
     refs = {c["ref"] for c in body["design"]["chips"]}
     assert refs == {"U1", "U2"}
     assert all("." in pin for pins in body["connections"].values() for pin in pins)
-    assert any(w.startswith("74LS86") for w in body["warnings"])
+    assert body["drc"]["ok"] is True
+    assert body["drc"]["power"]["complete"] is False  # 74LS86 sin ICC verificado
+    assert [ln["value"] for ln in body["bom"]["lines"] if ln["kind"] == "ic"] == [
+        "74LS00",
+        "74LS86",
+    ]
+    assert any(g["target"] == "74LS86" for g in body["bom"]["gaps"])
 
 
 def test_map_strategy_subset_and_validation():
@@ -68,3 +74,27 @@ def test_map_strategy_subset_and_validation():
 
 def test_map_parse_error():
     assert client.post("/api/map", json={"equations": "Y = (A"}).status_code == 422
+
+
+def test_bom_export_csv_and_json():
+    payload = {"equations": "Y = (A B)'"}
+    r = client.post("/api/bom/export", json=payload)
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("text/csv")
+    assert "attachment" in r.headers["content-disposition"]
+    assert r.text.splitlines()[1].startswith("U1,1,ic,74LS00")
+    j = client.post("/api/bom/export?format=json", json=payload)
+    assert j.json()["lines"][0]["manufacturer_pn"] == "SN74LS00N"
+    assert client.post("/api/bom/export?format=xls", json=payload).status_code == 422
+
+
+def test_map_with_soic_package_option():
+    r = client.post("/api/map", json={"equations": "Y = (A B)'", "bom": {"package": "SOIC-14"}})
+    assert r.json()["bom"]["lines"][0]["manufacturer_pn"] == "SN74LS00DR"
+
+
+def test_map_rejects_function_too_large_with_422():
+    names = " ".join(f"X{i}" for i in range(14))
+    r = client.post("/api/map", json={"equations": f"Y = A' B + {names}"})
+    assert r.status_code == 422
+    assert "cubos" in r.json()["detail"]

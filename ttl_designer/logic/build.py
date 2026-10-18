@@ -44,8 +44,15 @@ class _Builder:
         return out
 
 
-def build_netlist(equations: list[tuple[str, Expr]], name: str = "circuit") -> Netlist:
-    inputs = collect_inputs(equations)
+def build_netlist(
+    equations: list[tuple[str, Expr]], name: str = "circuit", inputs: list[str] | None = None
+) -> Netlist:
+    """``inputs`` permite conservar entradas que la minimización eliminó de las ecuaciones."""
+    used = collect_inputs(equations)
+    if inputs is None:
+        inputs = used
+    elif missing := sorted(set(used) - set(inputs)):
+        raise ValueError(f"variables no declaradas como entradas: {missing}")
     b = _Builder()
     outputs = [Output(name=o, net=b.net(e)) for o, e in equations]
     return Netlist(name=name, inputs=inputs, outputs=outputs, gates=b.gates)

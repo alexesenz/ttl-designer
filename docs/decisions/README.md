@@ -26,3 +26,5 @@ el código resuelva aquí.
 | [`05-ejes-de-reporte.md`](05-ejes-de-reporte.md) | §EJES | Corrección lógica, DRC eléctrico y BOM como ejes separados |
 | [`06-despliegue.md`](06-despliegue.md) | §DESPLIEGUE | Despliegue en Raspberry Pi: puerto 8040, red local y Tailscale |
 | [`07-mapeo-y-empaquetado.md`](07-mapeo-y-empaquetado.md) | §MAPEO | Mapeo tecnológico y empaquetado en chips 74LS |
+| [`08-bom.md`](08-bom.md) | §BOM | Lista de materiales: derivada, con políticas declaradas y huecos explícitos |
+| [`09-drc.md`](09-drc.md) | §DRC | Chequeo eléctrico (DRC): límites del catálogo, no evaluable antes que suponer |

@@ -33,7 +33,8 @@ sueltas en ranuras libres y asignación a chips y pines. Elige por número de IC
 | ruta | qué hace |
 |---|---|
 | `POST /api/analyze` | tabla de verdad, minimización con traza, netlist lógico |
-| `POST /api/map` | candidatos por estrategia, diseño elegido con chips, pines y entradas fijas |
+| `POST /api/map` | candidatos por estrategia, diseño elegido (chips, pines, entradas fijas), DRC y BOM |
+| `POST /api/bom/export?format=csv\|json` | BOM del diseño elegido como archivo descargable |
 | `GET /health` | estado, versión y commit desplegado |
 
 Documentación interactiva en `/docs` con el servidor corriendo.

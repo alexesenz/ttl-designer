@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
+from ..bom import Bom, BomOptions
+from ..drc import DrcReport
 from ..models.netlist import Netlist
 from ..models.physical import PhysicalDesign
 
@@ -48,6 +50,7 @@ class MapRequest(BaseModel):
     allow_open_collector: bool = False
     allow_schmitt: bool = False
     excluded_parts: list[str] = Field(default_factory=list)
+    bom: BomOptions = Field(default_factory=BomOptions)
 
 
 class CandidateOut(BaseModel):
@@ -70,3 +73,5 @@ class MapResponse(BaseModel):
     design: PhysicalDesign | None
     connections: dict[str, list[str]]
     warnings: list[str]
+    drc: DrcReport | None
+    bom: Bom | None
