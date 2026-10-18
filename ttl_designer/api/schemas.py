@@ -51,6 +51,7 @@ class MapRequest(BaseModel):
     allow_schmitt: bool = False
     excluded_parts: list[str] = Field(default_factory=list)
     bom: BomOptions = Field(default_factory=BomOptions)
+    title: str = Field(default="", max_length=120, description="título para las vistas SVG")
 
 
 class CandidateOut(BaseModel):
