@@ -3,8 +3,8 @@
 - **Sección**: §COSTO-IC
 - **Estado**: vigente
 - **Fecha**: 2026-10-18
-- **Módulos**: —
-- **Tests**: —
+- **Módulos**: `ttl_designer/techmap/mapper.py`
+- **Tests**: `tests/test_golden.py`
 
 ---
 
@@ -34,7 +34,7 @@ herramienta muestra la comparación entre ellas, porque esa comparación es mate
 - Las compuertas que sobran en un chip se reportan como libres, y sus entradas reciben el
   tratamiento de entradas no usadas en el BOM.
 
-Estado de implementación: decisión tomada; el mapeo está pendiente de que exista el catálogo.
+Implementación: §MAPEO (`docs/decisions/07-mapeo-y-empaquetado.md`).
 
 ## Alternativas descartadas
 

@@ -10,6 +10,10 @@ from ..models.netlist import CONST0, CONST1, Gate, GateKind, Netlist, Output
 from .ast import And, Const, Expr, NAry, Not, Or, Var, Xor
 from .truthtable import collect_inputs
 
+# Prefijo de redes internas: "~" no puede aparecer en un identificador del parser,
+# así que una red interna nunca choca con el nombre de una entrada.
+INTERNAL_NET_PREFIX = "~n"
+
 _KIND = {And: GateKind.AND, Or: GateKind.OR, Xor: GateKind.XOR}
 
 
@@ -34,7 +38,7 @@ class _Builder:
         if key in self.cache:
             return self.cache[key]
         n = len(self.gates) + 1
-        out = f"n{n}"
+        out = f"{INTERNAL_NET_PREFIX}{n}"
         self.gates.append(Gate(id=f"G{n}", kind=kind, inputs=inputs, output=out))
         self.cache[key] = out
         return out
