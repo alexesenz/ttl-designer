@@ -1,5 +1,16 @@
 # ttl-designer
-Herramienta para la creación de circuitos usando compuertas básicas TTL
+
+Herramienta para diseñar circuitos combinacionales con compuertas TTL 74LS: de una expresión
+booleana a un circuito montable, con minimización, mapeo a chips reales, simulación,
+esquemático SVG, BOM y documentación por etapa.
+
+Licencia [MIT](LICENSE). Para contribuir, ver [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Documentación
+
+- [`docs/decisions/`](docs/decisions/README.md): decisiones de diseño y su porqué.
+- [`CATALOG_CONTRACT.md`](CATALOG_CONTRACT.md): especificación del catálogo de chips 74LS.
+- [`CLAUDE.md`](CLAUDE.md): manual de operación e invariantes (para agentes y mantenedores).
 
 ## Estado
 
@@ -29,6 +40,7 @@ Precedencia: NOT > AND > XOR > OR. Los identificadores admiten varios caracteres
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -e '.[dev]'
+.venv/bin/pre-commit install
 .venv/bin/pytest
 .venv/bin/uvicorn ttl_designer.app:app --reload   # http://127.0.0.1:8000/docs
 ```

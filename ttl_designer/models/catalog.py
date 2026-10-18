@@ -2,6 +2,7 @@
 
 Refleja el contrato entregado al agente que construye el catálogo; las
 validaciones de pinout y de tiempos son las mismas que se le exigieron.
+Política de fuentes y de datos faltantes: §CATALOGO; especificación: CATALOG_CONTRACT.md.
 """
 
 from __future__ import annotations

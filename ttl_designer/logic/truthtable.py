@@ -1,7 +1,7 @@
 """Tablas de verdad y conversión expresión ↔ minterms.
 
 Convención de bits: la primera variable es el bit más significativo del índice
-de fila, como en la notación habitual Σm(...).
+de fila, como en la notación habitual Σm(...) (§CONVENCIONES).
 """
 
 from __future__ import annotations

@@ -20,7 +20,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .ast import And, Const, Expr, Not, Or, Var, Xor, make_and, make_or
+from .ast import And, Const, Expr, NAry, Not, Or, Var, Xor, make_and, make_or
 
 
 class ParseError(ValueError):
@@ -171,10 +171,13 @@ class _Parser:
         raise ParseError(f"se esperaba un operando, se encontró {found!r}", t.pos, self.text)
 
 
-def _flatten(items: list[Expr], cls: type) -> list[Expr]:
+def _flatten(items: list[Expr], cls: type[NAry]) -> list[Expr]:
     out: list[Expr] = []
     for it in items:
-        out.extend(it.args if isinstance(it, cls) else (it,))
+        if isinstance(it, cls):
+            out.extend(it.args)
+        else:
+            out.append(it)
     return out
 
 

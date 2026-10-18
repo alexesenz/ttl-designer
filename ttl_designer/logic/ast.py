@@ -66,7 +66,7 @@ class Not(Expr):
 
 
 @dataclass(frozen=True)
-class _NAry(Expr):
+class NAry(Expr):
     args: tuple[Expr, ...]
 
     def _collect(self, seen: dict[str, None]) -> None:
@@ -75,19 +75,19 @@ class _NAry(Expr):
 
 
 @dataclass(frozen=True)
-class And(_NAry):
+class And(NAry):
     def eval(self, env: dict[str, int], mask: int = 1) -> int:
         return reduce(and_, (a.eval(env, mask) for a in self.args), mask)
 
 
 @dataclass(frozen=True)
-class Or(_NAry):
+class Or(NAry):
     def eval(self, env: dict[str, int], mask: int = 1) -> int:
         return reduce(or_, (a.eval(env, mask) for a in self.args), 0)
 
 
 @dataclass(frozen=True)
-class Xor(_NAry):
+class Xor(NAry):
     def eval(self, env: dict[str, int], mask: int = 1) -> int:
         return reduce(xor, (a.eval(env, mask) for a in self.args), 0)
 
@@ -115,6 +115,7 @@ def _fmt(e: Expr, parent_prec: int) -> str:
         if isinstance(inner, (Var, Const)):
             return _fmt(inner, 4) + "'"
         return "(" + _fmt(inner, 0) + ")'"
+    assert isinstance(e, NAry)
     prec = _PREC[type(e)]
     s = _SYM[type(e)].join(_fmt(a, prec) for a in e.args)
     return f"({s})" if prec <= parent_prec else s

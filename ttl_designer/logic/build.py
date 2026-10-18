@@ -7,7 +7,7 @@ operandos en operadores conmutativos) se instancian una sola vez.
 from __future__ import annotations
 
 from ..models.netlist import CONST0, CONST1, Gate, GateKind, Netlist, Output
-from .ast import And, Const, Expr, Not, Or, Var, Xor
+from .ast import And, Const, Expr, NAry, Not, Or, Var, Xor
 from .truthtable import collect_inputs
 
 _KIND = {And: GateKind.AND, Or: GateKind.OR, Xor: GateKind.XOR}
@@ -25,6 +25,7 @@ class _Builder:
             return CONST1 if e.value else CONST0
         if isinstance(e, Not):
             return self.gate(GateKind.NOT, [self.net(e.arg)])
+        assert isinstance(e, NAry)
         kind = _KIND[type(e)]
         return self.gate(kind, [self.net(a) for a in e.args])
 

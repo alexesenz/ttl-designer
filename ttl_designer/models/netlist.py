@@ -2,6 +2,7 @@
 
 Es independiente de la tecnología: las compuertas pueden tener cualquier
 fan-in. El mapeo a chips 74LS y el empaquetado trabajan sobre este modelo.
+Es la fuente única de verdad de todas las salidas (§NETLIST).
 """
 
 from __future__ import annotations

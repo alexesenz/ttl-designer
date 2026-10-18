@@ -79,7 +79,8 @@ def check_equivalence(
     """Compara el netlist contra la especificación en todas las filas.
 
     Las filas en ``dont_cares[salida]`` se ignoran. Devuelve hasta
-    ``max_reports`` contraejemplos; lista vacía = equivalentes.
+    ``max_reports`` contraejemplos; lista vacía = equivalentes. Es el eje de
+    corrección lógica, independiente del DRC y del BOM (§EJES).
     """
     dont_cares = dont_cares or {}
     inputs = sorted(set(netlist.inputs) | {v for _, e in equations for v in e.variables()})
