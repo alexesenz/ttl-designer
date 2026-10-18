@@ -1,0 +1,23 @@
+# Plantilla: deploy/install.sh reemplaza __USER__ y __REPO__ y la instala en
+# /etc/systemd/system/ttl-designer.service. No editar la copia instalada a mano.
+# Puerto 8040 en 0.0.0.0: visible en la red local y por Tailscale (§DESPLIEGUE).
+[Unit]
+Description=TTL Designer (FastAPI)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__REPO__
+Environment=TTL_HOST=0.0.0.0
+Environment=TTL_PORT=8040
+ExecStart=__REPO__/.venv/bin/uvicorn ttl_designer.app:app --host ${TTL_HOST} --port ${TTL_PORT} --workers 1
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

@@ -24,3 +24,4 @@ el código resuelva aquí.
 | [`03-convenciones-de-entrada.md`](03-convenciones-de-entrada.md) | §CONVENCIONES | Orden de variables, MSB y sintaxis de expresiones |
 | [`04-catalogo-y-fuentes.md`](04-catalogo-y-fuentes.md) | §CATALOGO | Catálogo 74LS: fuentes oficiales, null antes que suponer |
 | [`05-ejes-de-reporte.md`](05-ejes-de-reporte.md) | §EJES | Corrección lógica, DRC eléctrico y BOM como ejes separados |
+| [`06-despliegue.md`](06-despliegue.md) | §DESPLIEGUE | Despliegue en Raspberry Pi: puerto 8040, red local y Tailscale |
