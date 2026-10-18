@@ -45,6 +45,7 @@ ttl_designer/bom.py               BOM: ICs, desacople, pull-ups, huecos; CSV/JSO
 ttl_designer/drc.py               DRC: fan-out, flotantes, conflictos, consumo (§DRC)
 ttl_designer/electrical.py        cargas de entrada y pull-ups calculados desde el catálogo
 ttl_designer/render/chips.py      vista de chips SVG: pinout etiquetado y conexiones (§SVG)
+ttl_designer/render/schematic.py  esquemático lógico SVG: capas, carriles (§ESQUEMATICO)
 ttl_designer/api/                 rutas FastAPI y esquemas de request/response
 ttl_designer/app.py               app FastAPI; /health con versión y commit
 deploy/                           unidad systemd e install.sh (§DESPLIEGUE)

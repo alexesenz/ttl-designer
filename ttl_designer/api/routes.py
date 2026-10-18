@@ -12,6 +12,7 @@ from ..logic.parser import ParseError, parse_equations
 from ..logic.qm import Implicant
 from ..models.catalog import Catalog, load_catalog
 from ..render.chips import render_chips_svg
+from ..render.schematic import render_schematic_svg
 from ..sim.functional import check_equivalence
 from ..techmap.cells import MapOptions
 from ..techmap.mapper import Candidate, MapReport, map_design
@@ -165,4 +166,16 @@ def render_chips(req: MapRequest) -> Response:
     catalog = _catalog_or_503()
     design = report.selected.design
     svg = render_chips_svg(design, catalog, build_bom(design, catalog, req.bom), req.title)
+    return Response(content=svg, media_type="image/svg+xml")
+
+
+@router.post("/render/schematic.svg")
+def render_schematic(req: MapRequest) -> Response:
+    """Esquemático lógico del diseño elegido: compuertas por nivel y ruteo ortogonal."""
+    report = _run_map(req)
+    if report.selected is None or report.selected.design is None:
+        raise HTTPException(422, "ningún candidato es realizable")
+    catalog = _catalog_or_503()
+    design = report.selected.design
+    svg = render_schematic_svg(design, build_bom(design, catalog, req.bom), req.title)
     return Response(content=svg, media_type="image/svg+xml")

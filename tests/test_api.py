@@ -105,3 +105,10 @@ def test_render_chips_svg_endpoint():
     assert r.status_code == 200
     assert r.headers["content-type"].startswith("image/svg+xml")
     assert r.text.startswith("<svg") and "U1" in r.text and "74LS00" in r.text
+
+
+def test_render_schematic_svg_endpoint():
+    r = client.post("/api/render/schematic.svg", json={"equations": "Y = A B + C"})
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("image/svg+xml")
+    assert 'data-io="out"' in r.text and "data-gate" in r.text

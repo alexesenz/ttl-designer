@@ -34,6 +34,12 @@ Sumador completo mapeado a 7400 + 7486, con el pinout etiquetado y la tabla de c
 
 ![Vista de chips del sumador completo](docs/img/vista-chips-sumador.png)
 
+## Esquemático lógico
+
+Multiplexor 4:1 en NAND (7400, 7410, 7420), con la ubicación de cada compuerta:
+
+![Esquemático lógico del mux 4:1](docs/img/esquematico-mux.png)
+
 ## API
 
 | ruta | qué hace |
@@ -42,6 +48,7 @@ Sumador completo mapeado a 7400 + 7486, con el pinout etiquetado y la tabla de c
 | `POST /api/map` | candidatos por estrategia, diseño elegido (chips, pines, entradas fijas), DRC y BOM |
 | `POST /api/bom/export?format=csv\|json` | BOM del diseño elegido como archivo descargable |
 | `POST /api/render/chips.svg` | vista de chips: pinout etiquetado y tabla de conexiones |
+| `POST /api/render/schematic.svg` | esquemático lógico: compuertas ANSI por nivel y ruteo ortogonal |
 | `GET /health` | estado, versión y commit desplegado |
 
 Documentación interactiva en `/docs` con el servidor corriendo.
