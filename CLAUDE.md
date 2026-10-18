@@ -39,6 +39,8 @@ ttl_designer/models/netlist.py    netlist lógico validado (§NETLIST)
 ttl_designer/models/catalog.py    esquema del catálogo 74LS (§CATALOGO)
 ttl_designer/sim/functional.py    simulación sin retardo, check_equivalence (§EJES)
 ttl_designer/api/                 rutas FastAPI y esquemas de request/response
+ttl_designer/app.py               app FastAPI; /health con versión y commit
+deploy/                           unidad systemd e install.sh (§DESPLIEGUE)
 library/                          ttl_ls_catalog.json (datos, no código)
 ```
 
@@ -63,6 +65,27 @@ library/                          ttl_ls_catalog.json (datos, no código)
 - **Convenciones fijas** (§CONVENCIONES): primera variable = MSB del índice Σm; variables en
   orden alfabético; los identificadores pueden tener varios caracteres.
 - **Costo de mapeo = número de ICs** (§COSTO-IC), no número de compuertas.
+
+## Despliegue (Raspberry Pi)
+
+Servicio systemd `ttl-designer` en **0.0.0.0:8040**, visible en la red local y por
+Tailscale (§DESPLIEGUE). Procedimiento completo, firewall y diagnóstico:
+`docs/DEPLOY_RASPBERRY.md`.
+
+```bash
+deploy/install.sh                              # instalar o actualizar (idempotente, como usuario normal)
+git pull --ff-only && deploy/install.sh        # actualizar
+curl -s http://127.0.0.1:8040/health           # el commit debe ser `git rev-parse --short HEAD`
+journalctl -u ttl-designer -n 100 --no-pager   # logs
+```
+
+- El servicio se maneja solo con `systemctl`; nunca `pkill`, `kill` ni `nohup` sobre uvicorn.
+- No se usan 8000 ni 8020, que pertenecen a otros servicios. Si 8040 está ocupado,
+  `install.sh` aborta: preguntar antes de tocar el otro proceso.
+- La unidad instalada no se edita a mano: se cambia `deploy/ttl-designer.service` y se
+  reejecuta el script. Sin `--reload` en producción.
+- Sin autenticación: nunca port-forwarding ni `tailscale funnel`; con ufw, abrir solo a
+  la subred local y a `tailscale0`.
 
 ## Repo público
 

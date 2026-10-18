@@ -5,8 +5,11 @@ from ttl_designer.app import app
 client = TestClient(app)
 
 
-def test_health():
-    assert client.get("/health").json() == {"status": "ok"}
+def test_health_reports_version_and_commit():
+    body = client.get("/health").json()
+    assert body["status"] == "ok"
+    assert body["version"]
+    assert body["commit"]
 
 
 def test_analyze_minimizes_and_verifies():
