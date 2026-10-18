@@ -7,7 +7,7 @@
   <p class="eyebrow">Ejemplos</p>
   <div class="examples">
     {% for label, qs in examples %}
-    <a class="btn" href="/?{{ qs }}" hx-get="/?{{ qs }}" hx-target="#results" hx-push-url="true" hx-indicator="#busy" data-example="1">{{ label }}</a>
+    <a class="btn" href="./?{{ qs }}" hx-get="./?{{ qs }}" hx-target="#results" data-example="1">{{ label }}</a>
     {% endfor %}
   </div>
 </div>
@@ -143,7 +143,7 @@
 <div class="panel" role="tabpanel" id="panel-esquematico" aria-labelledby="tab-esquematico">
   <div class="toolbar">
     <button type="button" class="btn" data-fit="svg-esq" hidden>100 %</button>
-    <a class="btn" href="/descargas/esquematico.svg?{{ v.query }}" download>Descargar SVG</a>
+    <a class="btn" href="descargas/esquematico.svg?{{ v.query }}" download>Descargar SVG</a>
   </div>
   <div class="figure fit" id="svg-esq">{{ d.schematic_svg }}</div>
   <p class="muted">Pasa el cursor sobre un cable para ver el nombre de la red. Las entradas fijas aparecen como ↑R1 o GND junto al pin.</p>
@@ -153,7 +153,7 @@
 <div class="panel" role="tabpanel" id="panel-chips" aria-labelledby="tab-chips">
   <div class="toolbar">
     <button type="button" class="btn" data-fit="svg-chips" hidden>100 %</button>
-    <a class="btn" href="/descargas/chips.svg?{{ v.query }}" download>Descargar SVG</a>
+    <a class="btn" href="descargas/chips.svg?{{ v.query }}" download>Descargar SVG</a>
   </div>
   <div class="figure fit" id="svg-chips">{{ d.chips_svg }}</div>
 </div>
@@ -163,8 +163,8 @@
   <div class="toolbar between">
     <span class="muted">Encapsulado {{ v.bom.options.package }} · desacople {{ "%g"|format(v.bom.options.decoupling_nF) }} nF por IC{% if v.bom.options.bulk_uF %} · bulk {{ "%g"|format(v.bom.options.bulk_uF) }} µF{% endif %} · pull-up {{ "%g"|format(v.bom.options.pullup_ohm / 1000) }} kΩ</span>
     <span class="toolbar">
-      <a class="btn" href="/descargas/bom.csv?{{ v.query }}" download>Descargar CSV</a>
-      <a class="btn" href="/descargas/bom.json?{{ v.query }}" download>Descargar JSON</a>
+      <a class="btn" href="descargas/bom.csv?{{ v.query }}" download>Descargar CSV</a>
+      <a class="btn" href="descargas/bom.json?{{ v.query }}" download>Descargar JSON</a>
     </span>
   </div>
   {% if v.bom.lines %}
