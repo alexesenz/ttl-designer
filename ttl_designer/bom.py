@@ -65,6 +65,9 @@ class Bom(BaseModel):
     lines: list[BomLine]
     gaps: list[BomGap]
     gnd_pins: list[str]  # se cablean a GND; no llevan componente
+    # Asignación estructurada, para el cableado y el SVG (las notas son para personas)
+    pin_resistor: dict[str, str] = Field(default_factory=dict)  # "U1.12" → "R1"
+    decoupling: dict[str, str] = Field(default_factory=dict)  # "U1" → "C1"
 
     def to_csv(self) -> str:
         buf = io.StringIO()
@@ -105,6 +108,8 @@ def build_bom(design: PhysicalDesign, catalog: Catalog, options: BomOptions | No
     options = options or BomOptions()
     lines: list[BomLine] = []
     gaps: list[BomGap] = []
+    pin_resistor: dict[str, str] = {}
+    decoupling: dict[str, str] = {}
 
     by_part: dict[str, list[str]] = {}
     for c in design.chips:
@@ -119,6 +124,7 @@ def build_bom(design: PhysicalDesign, catalog: Catalog, options: BomOptions | No
 
     if design.chips:
         caps = [f"C{i}" for i in range(1, len(design.chips) + 1)]
+        decoupling = {c.ref: cap for cap, c in zip(caps, design.chips, strict=True)}
         lines.append(
             BomLine(
                 refs=caps,
@@ -153,6 +159,7 @@ def build_bom(design: PhysicalDesign, catalog: Catalog, options: BomOptions | No
     if groups:
         refs = [f"R{r_n + i}" for i in range(1, len(groups) + 1)]
         r_n += len(groups)
+        pin_resistor.update({pin: r for r, g in zip(refs, groups, strict=True) for pin in g})
         lines.append(
             BomLine(
                 refs=refs,
@@ -177,6 +184,7 @@ def build_bom(design: PhysicalDesign, catalog: Catalog, options: BomOptions | No
     oc_outputs = [f"{t.ref}.{t.pin}" for t in design.ties if t.reason is TieReason.OPEN_COLLECTOR]
     if oc_outputs:
         refs = [f"R{r_n + i}" for i in range(1, len(oc_outputs) + 1)]
+        pin_resistor.update(dict(zip(oc_outputs, refs, strict=True)))
         lines.append(
             BomLine(
                 refs=refs,
@@ -198,7 +206,14 @@ def build_bom(design: PhysicalDesign, catalog: Catalog, options: BomOptions | No
         )
 
     gnd = sorted({f"{t.ref}.{t.pin}" for t in design.ties if t.to is TieTarget.GND})
-    return Bom(options=options, lines=lines, gaps=gaps, gnd_pins=gnd)
+    return Bom(
+        options=options,
+        lines=lines,
+        gaps=gaps,
+        gnd_pins=gnd,
+        pin_resistor=pin_resistor,
+        decoupling=decoupling,
+    )
 
 
 def _ic_line(chip: Chip, refs: list[str], package: str) -> tuple[BomLine, list[BomGap]]:

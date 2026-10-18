@@ -28,3 +28,4 @@ el código resuelva aquí.
 | [`07-mapeo-y-empaquetado.md`](07-mapeo-y-empaquetado.md) | §MAPEO | Mapeo tecnológico y empaquetado en chips 74LS |
 | [`08-bom.md`](08-bom.md) | §BOM | Lista de materiales: derivada, con políticas declaradas y huecos explícitos |
 | [`09-drc.md`](09-drc.md) | §DRC | Chequeo eléctrico (DRC): límites del catálogo, no evaluable antes que suponer |
+| [`10-vista-de-chips.md`](10-vista-de-chips.md) | §SVG | Vista de chips en SVG: etiquetas de red por pin y tabla de conexiones |

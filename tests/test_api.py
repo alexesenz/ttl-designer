@@ -98,3 +98,10 @@ def test_map_rejects_function_too_large_with_422():
     r = client.post("/api/map", json={"equations": f"Y = A' B + {names}"})
     assert r.status_code == 422
     assert "cubos" in r.json()["detail"]
+
+
+def test_render_chips_svg_endpoint():
+    r = client.post("/api/render/chips.svg", json={"equations": "Y = (A B)'", "title": "nand"})
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("image/svg+xml")
+    assert r.text.startswith("<svg") and "U1" in r.text and "74LS00" in r.text

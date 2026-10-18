@@ -11,6 +11,7 @@ from ..logic.minimize import minimize_equations
 from ..logic.parser import ParseError, parse_equations
 from ..logic.qm import Implicant
 from ..models.catalog import Catalog, load_catalog
+from ..render.chips import render_chips_svg
 from ..sim.functional import check_equivalence
 from ..techmap.cells import MapOptions
 from ..techmap.mapper import Candidate, MapReport, map_design
@@ -153,3 +154,15 @@ def export_bom(req: MapRequest, format: str = "csv") -> Response:
         body, media = bom.model_dump_json(indent=2), "application/json"
     headers = {"Content-Disposition": f'attachment; filename="bom.{format}"'}
     return Response(content=body, media_type=media, headers=headers)
+
+
+@router.post("/render/chips.svg")
+def render_chips(req: MapRequest) -> Response:
+    """Vista de chips del diseño elegido: pinout etiquetado y tabla de conexiones (§SVG)."""
+    report = _run_map(req)
+    if report.selected is None or report.selected.design is None:
+        raise HTTPException(422, "ningún candidato es realizable")
+    catalog = _catalog_or_503()
+    design = report.selected.design
+    svg = render_chips_svg(design, catalog, build_bom(design, catalog, req.bom), req.title)
+    return Response(content=svg, media_type="image/svg+xml")
