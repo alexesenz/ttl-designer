@@ -25,6 +25,7 @@ from ..bom import Bom
 from ..models.netlist import CONST1, CONSTANT_NETS, Gate, GateKind
 from ..models.physical import PhysicalDesign
 from .chips import FONT, PALETTE, net_names
+from .theme import scoped_style
 
 PIN_SP = 16  # separación entre entradas de una compuerta
 PAD = 8
@@ -44,35 +45,39 @@ MARGIN = 24
 TOP = 44
 SWEEPS = 4
 
-STYLE = (
+STYLE = scoped_style(
+    "ttl-schematic",
+    (
+        "--bg:#ffffff; --fg:#1f2328; --muted:#6e7781; --gate:#ffffff; --stroke:#24292f; "
+        "--wire:#57606a; --vcc:#cf222e; --gnd:#57606a; --n0:#0b63c4; --n1:#c2410c; "
+        "--n2:#047857; --n3:#a21caf; --n4:#9a6700; --n5:#0e7490; --n6:#9f1239; "
+        "--n7:#4d7c0f;"
+    ),
+    (
+        "--bg:#0d1117; --fg:#e6edf3; --muted:#8b949e; --gate:#161b22; --stroke:#c9d1d9; "
+        "--wire:#8b949e; --vcc:#ff7b72; --gnd:#8b949e; --n0:#79c0ff; --n1:#ffa657; "
+        "--n2:#56d364; --n3:#e2a5f8; --n4:#e3b341; --n5:#76e3ea; --n6:#ff9bce; "
+        "--n7:#a5d6a7;"
+    ),
     """
-:root { --bg:#ffffff; --fg:#1f2328; --muted:#6e7781; --gate:#ffffff; --stroke:#24292f;
-  --wire:#57606a; --vcc:#cf222e; --gnd:#57606a;
-  --n0:#0b63c4; --n1:#c2410c; --n2:#047857; --n3:#a21caf; --n4:#9a6700; --n5:#0e7490;
-  --n6:#9f1239; --n7:#4d7c0f; }
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#0d1117; --fg:#e6edf3; --muted:#8b949e; --gate:#161b22; --stroke:#c9d1d9;
-    --wire:#8b949e; --vcc:#ff7b72; --gnd:#8b949e;
-    --n0:#79c0ff; --n1:#ffa657; --n2:#56d364; --n3:#e2a5f8; --n4:#e3b341; --n5:#76e3ea;
-    --n6:#ff9bce; --n7:#a5d6a7; }
-}
-text { fill: var(--fg); font-family: __FONT__; font-size: 12px; }
-.h { font-weight: 700; font-size: 14px; }
-.slot { fill: var(--muted); font-size: 10px; }
-.gate { fill: var(--gate); stroke: var(--stroke); stroke-width: 1.6; }
-.gate-line { fill: none; stroke: var(--stroke); stroke-width: 1.6; }
-.wire { stroke-width: 1.6; fill: none; stroke-linecap: round; }
-.dot { stroke: none; }
-.term { fill: var(--gate); stroke: var(--stroke); stroke-width: 1.4; }
-.io { font-weight: 700; }
-.vcc { fill: var(--vcc); font-size: 10px; font-weight: 700; }
-.gnd { fill: var(--gnd); font-size: 10px; font-weight: 700; }
-.tie { stroke: var(--wire); stroke-width: 1.4; }
-.pinpt { fill: none; stroke: none; }
+& text { fill: var(--fg); font-family: __FONT__; font-size: 12px; }
+& .h { font-weight: 700; font-size: 14px; }
+& .slot { fill: var(--muted); font-size: 10px; }
+& .gate { fill: var(--gate); stroke: var(--stroke); stroke-width: 1.6; }
+& .gate-line { fill: none; stroke: var(--stroke); stroke-width: 1.6; }
+& .wire { stroke-width: 1.6; fill: none; stroke-linecap: round; }
+& .dot { stroke: none; }
+& .term { fill: var(--gate); stroke: var(--stroke); stroke-width: 1.4; }
+& .io { font-weight: 700; }
+& .vcc { fill: var(--vcc); font-size: 10px; font-weight: 700; }
+& .gnd { fill: var(--gnd); font-size: 10px; font-weight: 700; }
+& .tie { stroke: var(--wire); stroke-width: 1.4; }
+& .pinpt { fill: none; stroke: none; }
 """.replace("__FONT__", FONT)
     + "\n".join(
-        f".n{i} {{ stroke: var(--n{i}); }} .t{i} {{ fill: var(--n{i}); }}" for i in range(PALETTE)
-    )
+        f"& .n{i} {{ stroke: var(--n{i}); }} & .t{i} {{ fill: var(--n{i}); }}"
+        for i in range(PALETTE)
+    ),
 )
 
 
@@ -284,7 +289,8 @@ def render_schematic_svg(design: PhysicalDesign, bom: Bom, title: str = "") -> s
         )
 
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" class="ttl-schematic" '
+        f'width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img">'
         f"<title>{escape(title or 'Esquemático lógico')}</title>"
         f"<style>{STYLE}</style>"

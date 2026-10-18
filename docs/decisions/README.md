@@ -30,3 +30,4 @@ el código resuelva aquí.
 | [`09-drc.md`](09-drc.md) | §DRC | Chequeo eléctrico (DRC): límites del catálogo, no evaluable antes que suponer |
 | [`10-vista-de-chips.md`](10-vista-de-chips.md) | §SVG | Vista de chips en SVG: etiquetas de red por pin y tabla de conexiones |
 | [`11-esquematico-logico.md`](11-esquematico-logico.md) | §ESQUEMATICO | Esquemático lógico: capas por nivel, ruteo por canales con carriles |
+| [`12-frontend.md`](12-frontend.md) | §FRONTEND | Interfaz web: Jinja2 + htmx, estado en la URL, sin compilación |

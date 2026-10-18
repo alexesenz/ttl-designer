@@ -13,7 +13,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
-from .electrical import group_pullups, max_inputs_per_pullup, pullup_pins
+from .electrical import group_pullups, max_inputs_per_pullup, pin_sort_key, pullup_pins
 from .models.catalog import Catalog, Chip, Lifecycle
 from .models.physical import PhysicalDesign, TieReason, TieTarget
 
@@ -205,7 +205,9 @@ def build_bom(design: PhysicalDesign, catalog: Catalog, options: BomOptions | No
             )
         )
 
-    gnd = sorted({f"{t.ref}.{t.pin}" for t in design.ties if t.to is TieTarget.GND})
+    gnd = sorted(
+        {f"{t.ref}.{t.pin}" for t in design.ties if t.to is TieTarget.GND}, key=pin_sort_key
+    )
     return Bom(
         options=options,
         lines=lines,

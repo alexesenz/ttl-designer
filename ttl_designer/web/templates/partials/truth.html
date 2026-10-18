@@ -1,0 +1,11 @@
+<div class="table-box">
+<table class="mono truth">
+  <thead><tr><th scope="col">#</th>{% for n in d.inputs %}<th scope="col">{{ n }}</th>{% endfor %}{% for n in d.outputs %}<th scope="col"{% if loop.first %} class="sep"{% endif %}>{{ n }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for ins, outs in d.truth_rows %}
+    <tr><td class="muted">{{ loop.index0 }}</td>{% for b in ins %}<td>{{ b }}</td>{% endfor %}{% for b in outs %}<td class="strong{% if loop.first %} sep{% endif %}">{{ b }}</td>{% endfor %}</tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% if d.truth_truncated %}<p class="muted small">Se muestran las primeras {{ d.truth_rows|length }} de {{ d.n_rows }} filas.</p>{% endif %}

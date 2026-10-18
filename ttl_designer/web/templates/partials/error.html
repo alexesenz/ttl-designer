@@ -1,0 +1,15 @@
+<div id="eq-error"{% if oob %} hx-swap-oob="true"{% endif %}>
+{% if v.error %}
+  <div class="alert" role="alert">
+    <p class="alert-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4M8 11v.5"/></svg>
+      {{ v.error.message }}
+    </p>
+    {% if v.error.line is not none %}
+    <pre class="mono caret">{{ v.error.line }}
+{{ " " * v.error.caret }}<span class="caret-mark">^</span> columna {{ v.error.caret + 1 }}</pre>
+    {% endif %}
+    {% if v.error.hint %}<p class="help">{{ v.error.hint }}</p>{% endif %}
+  </div>
+{% endif %}
+</div>
