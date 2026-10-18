@@ -3,6 +3,7 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from ..models.netlist import Netlist
+from ..models.physical import PhysicalDesign
 
 
 class AnalyzeRequest(BaseModel):
@@ -36,3 +37,36 @@ class AnalyzeResponse(BaseModel):
     netlist: Netlist
     logic_depth: int
     equivalent: bool
+
+
+class MapRequest(BaseModel):
+    equations: str = Field(examples=["S = A ^ B ^ Ci; Co = A B + Ci (A ^ B)"])
+    dont_cares: dict[str, list[int]] = Field(default_factory=dict)
+    strategies: list[str] | None = Field(
+        default=None, description="subconjunto de estrategias; por defecto todas"
+    )
+    allow_open_collector: bool = False
+    allow_schmitt: bool = False
+    excluded_parts: list[str] = Field(default_factory=list)
+
+
+class CandidateOut(BaseModel):
+    source: str
+    strategy: str
+    ic_count: int | None
+    depth: int | None
+    gate_count: int | None
+    parts: dict[str, int]
+    absorbed: int
+    equivalent: bool
+    error: str | None
+
+
+class MapResponse(BaseModel):
+    inputs: list[str]
+    outputs: list[str]
+    candidates: list[CandidateOut]
+    selected: CandidateOut | None
+    design: PhysicalDesign | None
+    connections: dict[str, list[str]]
+    warnings: list[str]

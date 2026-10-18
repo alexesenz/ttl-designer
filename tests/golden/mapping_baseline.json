@@ -1,0 +1,80 @@
+{
+  "_meta": {
+    "reason": "baseline inicial del mapeo tecnológico (§MAPEO)",
+    "date": "2026-10-18",
+    "base_commit": "97a5edb"
+  },
+  "circuits": {
+    "sumador_completo": {
+      "source": "original",
+      "strategy": "nand+xor",
+      "ic_count": 2,
+      "depth": 3,
+      "gate_count": 5,
+      "parts": {
+        "74LS00": 1,
+        "74LS86": 1
+      }
+    },
+    "comparador_2bits": {
+      "source": "original",
+      "strategy": "mixta",
+      "ic_count": 5,
+      "depth": 4,
+      "gate_count": 15,
+      "parts": {
+        "74LS04": 1,
+        "74LS08": 1,
+        "74LS11": 1,
+        "74LS32": 1,
+        "74LS86": 1
+      }
+    },
+    "mux_4a1": {
+      "source": "minimizada",
+      "strategy": "nand",
+      "ic_count": 3,
+      "depth": 3,
+      "gate_count": 7,
+      "parts": {
+        "74LS00": 1,
+        "74LS10": 1,
+        "74LS20": 1
+      }
+    },
+    "paridad_4bits": {
+      "source": "original",
+      "strategy": "mixta",
+      "ic_count": 1,
+      "depth": 2,
+      "gate_count": 3,
+      "parts": {
+        "74LS86": 1
+      }
+    },
+    "mayoria_3": {
+      "source": "minimizada",
+      "strategy": "nand",
+      "ic_count": 2,
+      "depth": 2,
+      "gate_count": 4,
+      "parts": {
+        "74LS00": 1,
+        "74LS10": 1
+      }
+    },
+    "bcd_7seg": {
+      "source": "minimizada",
+      "strategy": "nand",
+      "ic_count": 7,
+      "depth": 3,
+      "gate_count": 20,
+      "parts": {
+        "74LS00": 3,
+        "74LS10": 1,
+        "74LS20": 2,
+        "74LS30": 1
+      }
+    }
+  }
+}

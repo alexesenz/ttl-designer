@@ -42,3 +42,29 @@ def test_analyze_parse_error():
 def test_analyze_unknown_dont_care_output():
     r = client.post("/api/analyze", json={"equations": "Y = A", "dont_cares": {"Q": [0]}})
     assert r.status_code == 422
+
+
+def test_map_full_adder_selects_two_ics():
+    r = client.post("/api/map", json={"equations": "S = A ^ B ^ Ci; Co = A B + Ci (A ^ B)"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["selected"]["ic_count"] == 2
+    assert body["selected"]["parts"] == {"74LS00": 1, "74LS86": 1}
+    assert len(body["candidates"]) == 10
+    assert all(c["equivalent"] for c in body["candidates"] if c["ic_count"] is not None)
+    refs = {c["ref"] for c in body["design"]["chips"]}
+    assert refs == {"U1", "U2"}
+    assert all("." in pin for pins in body["connections"].values() for pin in pins)
+    assert any(w.startswith("74LS86") for w in body["warnings"])
+
+
+def test_map_strategy_subset_and_validation():
+    r = client.post("/api/map", json={"equations": "Y = A + B", "strategies": ["nor"]})
+    assert r.status_code == 200
+    assert r.json()["selected"]["parts"] == {"74LS02": 1}
+    bad = client.post("/api/map", json={"equations": "Y = A", "strategies": ["magia"]})
+    assert bad.status_code == 422
+
+
+def test_map_parse_error():
+    assert client.post("/api/map", json={"equations": "Y = (A"}).status_code == 422

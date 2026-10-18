@@ -38,6 +38,9 @@ ttl_designer/logic/build.py       ecuaciones → netlist con hashing estructural
 ttl_designer/models/netlist.py    netlist lógico validado (§NETLIST)
 ttl_designer/models/catalog.py    esquema del catálogo 74LS (§CATALOGO)
 ttl_designer/sim/functional.py    simulación sin retardo, check_equivalence (§EJES)
+ttl_designer/logic/minimize.py    minimización por salida (comparte /analyze y /map)
+ttl_designer/techmap/             mapeo a celdas 74LS, absorción y empaquetado (§MAPEO)
+ttl_designer/models/physical.py   netlist físico: chips, ranuras, pines y entradas fijas
 ttl_designer/api/                 rutas FastAPI y esquemas de request/response
 ttl_designer/app.py               app FastAPI; /health con versión y commit
 deploy/                           unidad systemd e install.sh (§DESPLIEGUE)
@@ -65,6 +68,9 @@ library/                          ttl_ls_catalog.json (datos, no código)
 - **Convenciones fijas** (§CONVENCIONES): primera variable = MSB del índice Σm; variables en
   orden alfabético; los identificadores pueden tener varios caracteres.
 - **Costo de mapeo = número de ICs** (§COSTO-IC), no número de compuertas.
+- **Circuitos dorados** (`tests/golden/`): el resultado del mapeo está fijado. Moverlo exige
+  `scripts/update_golden.py --reason "..."` y explicar el cambio en el commit.
+- **Entradas sobrantes** (§MAPEO): AND/NAND a pull-up de 1 kΩ; OR/NOR/XOR a GND.
 
 ## Despliegue (Raspberry Pi)
 

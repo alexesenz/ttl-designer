@@ -25,3 +25,4 @@ el código resuelva aquí.
 | [`04-catalogo-y-fuentes.md`](04-catalogo-y-fuentes.md) | §CATALOGO | Catálogo 74LS: fuentes oficiales, null antes que suponer |
 | [`05-ejes-de-reporte.md`](05-ejes-de-reporte.md) | §EJES | Corrección lógica, DRC eléctrico y BOM como ejes separados |
 | [`06-despliegue.md`](06-despliegue.md) | §DESPLIEGUE | Despliegue en Raspberry Pi: puerto 8040, red local y Tailscale |
+| [`07-mapeo-y-empaquetado.md`](07-mapeo-y-empaquetado.md) | §MAPEO | Mapeo tecnológico y empaquetado en chips 74LS |

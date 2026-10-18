@@ -24,6 +24,20 @@ Núcleo lógico (combinacional), independiente del catálogo de chips:
 - `ttl_designer/sim/functional.py` — simulación sin retardo y verificación de equivalencia
 - `ttl_designer/models/catalog.py` — esquema y validación de `library/ttl_ls_catalog.json`
 
+Mapeo a chips 74LS (`ttl_designer/techmap/`): cinco estrategias (mixta, NAND, NOR,
+NAND+XOR, NOR+XOR) sobre la forma minimizada y la original, absorción de compuertas
+sueltas en ranuras libres y asignación a chips y pines. Elige por número de ICs.
+
+## API
+
+| ruta | qué hace |
+|---|---|
+| `POST /api/analyze` | tabla de verdad, minimización con traza, netlist lógico |
+| `POST /api/map` | candidatos por estrategia, diseño elegido con chips, pines y entradas fijas |
+| `GET /health` | estado, versión y commit desplegado |
+
+Documentación interactiva en `/docs` con el servidor corriendo.
+
 ## Sintaxis de expresiones
 
 | Operación | Símbolos                         |

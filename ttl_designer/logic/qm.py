@@ -139,15 +139,20 @@ def _prime_implicants(n: int, terms: list[int], trace: QMTrace) -> set[Implicant
             groups.setdefault(bin(imp.value).count("1"), []).append(imp)
         trace.columns.append(groups)
 
+        # En vez de comparar todos los pares de grupos adyacentes (cuadrático), cada cubo
+        # busca por hash a su pareja: el mismo cubo con un bit fijo en 0 pasado a 1.
         used: set[Implicant] = set()
         nxt: set[Implicant] = set()
-        keys = sorted(groups)
-        for k in keys:
+        for k in sorted(groups):
             for a in groups[k]:
-                for b in groups.get(k + 1, []):
-                    merged = merge_pair(a, b)
-                    if merged is None:
+                for i in range(n):
+                    bit = 1 << i
+                    if a.dashes & bit or a.value & bit:
                         continue
+                    b = Implicant(a.value | bit, a.dashes)
+                    if b not in current:
+                        continue
+                    merged = Implicant(a.value, a.dashes | bit)
                     used.update((a, b))
                     if merged not in nxt:
                         trace.merges.append((iteration, a, b, merged))
