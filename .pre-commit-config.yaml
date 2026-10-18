@@ -1,0 +1,28 @@
+# Hooks locales: usan las herramientas instaladas en el entorno (pip install -e '.[dev]'),
+# así las versiones son las mismas que en el CI. Todos bloquean: el repo nació limpio y
+# tipado, y se mantiene así.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff check
+        entry: ruff check
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format --check
+        entry: ruff format --check
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy --strict
+        entry: mypy
+        language: system
+        pass_filenames: false
+        types: [python]
+      - id: pytest
+        name: pytest
+        entry: pytest -q
+        language: system
+        pass_filenames: false
+        always_run: true
