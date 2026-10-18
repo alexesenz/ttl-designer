@@ -70,8 +70,8 @@ def map_design(
     lib = CellLibrary(catalog, options)
     mini = minimize_equations(equations, dont_cares)
     sources = {
-        "minimizada": build_netlist(mini.equations),
-        "original": build_netlist(equations),
+        "minimizada": build_netlist(mini.equations, inputs=mini.inputs),
+        "original": build_netlist(equations, inputs=mini.inputs),
     }
 
     candidates: list[Candidate] = []
@@ -92,21 +92,6 @@ def map_design(
 
     valid = [c for c in candidates if c.ok]
     selected = min(valid, key=Candidate.cost) if valid else None
-    warnings = _warnings(selected, catalog) if selected else ["ningún candidato es realizable"]
+    # Los datos sin verificar de los chips usados son huecos del BOM (§BOM), no del mapeo.
+    warnings = [] if selected else ["ningún candidato es realizable"]
     return MapReport(mini, candidates, selected, warnings)
-
-
-def _warnings(selected: Candidate, catalog: Catalog) -> list[str]:
-    """Datos del catálogo sin verificar en los chips usados (§CATALOGO, eje BOM de §EJES)."""
-    assert selected.design is not None
-    out = []
-    for part in selected.design.parts():
-        chip = catalog.chip(part)
-        if chip.unverified:
-            out.append(
-                f"{part}: {len(chip.unverified)} campos sin verificar: "
-                + ", ".join(chip.unverified)
-            )
-        if len({d.manufacturer for d in chip.datasheets}) < 2:
-            out.append(f"{part}: una sola fuente de fabricante")
-    return out

@@ -201,7 +201,7 @@ def test_dont_cares_are_respected_by_mapping():
     assert report.selected is not None and report.selected.equivalent
 
 
-def test_warnings_flag_unverified_catalog_fields():
+def test_mapping_warnings_only_report_unrealizable_designs():
     report = map_design(parse_equations("P = A ^ B ^ C ^ D"), CATALOG)
     assert report.selected.design.parts() == {"74LS86": 1}
-    assert any(w.startswith("74LS86:") for w in report.warnings)
+    assert report.warnings == []  # los datos sin verificar son huecos del BOM (§BOM)

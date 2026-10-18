@@ -41,6 +41,9 @@ ttl_designer/sim/functional.py    simulación sin retardo, check_equivalence (§
 ttl_designer/logic/minimize.py    minimización por salida (comparte /analyze y /map)
 ttl_designer/techmap/             mapeo a celdas 74LS, absorción y empaquetado (§MAPEO)
 ttl_designer/models/physical.py   netlist físico: chips, ranuras, pines y entradas fijas
+ttl_designer/bom.py               BOM: ICs, desacople, pull-ups, huecos; CSV/JSON (§BOM)
+ttl_designer/drc.py               DRC: fan-out, flotantes, conflictos, consumo (§DRC)
+ttl_designer/electrical.py        cargas de entrada y pull-ups calculados desde el catálogo
 ttl_designer/api/                 rutas FastAPI y esquemas de request/response
 ttl_designer/app.py               app FastAPI; /health con versión y commit
 deploy/                           unidad systemd e install.sh (§DESPLIEGUE)
@@ -63,7 +66,7 @@ library/                          ttl_ls_catalog.json (datos, no código)
 - **Fallar en voz alta.** Los modelos de entrada son estrictos (`extra="forbid"`, validación
   estructural). Un dato malformado produce un error con contexto, no un resultado plausible.
 - **Límites explícitos.** Lo que crece exponencialmente con la entrada tiene tope
-  (`MAX_VARIABLES`, `PETRICK_LIMIT`) y la API responde 422 al excederlo. Una ruta nueva cuyo
+  (`MAX_VARIABLES`, `CUBE_LIMIT`, `PETRICK_LIMIT`) y la API responde 422 al excederlo. Una ruta nueva cuyo
   costo crezca con la entrada más allá de eso nace como job asíncrono, no se adapta después.
 - **Convenciones fijas** (§CONVENCIONES): primera variable = MSB del índice Σm; variables en
   orden alfabético; los identificadores pueden tener varios caracteres.

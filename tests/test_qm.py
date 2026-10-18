@@ -87,3 +87,17 @@ def test_trace_records_iterations():
     assert len(t.columns) == 3  # minterms, pares, cuádruple
     assert t.prime_implicants == [Implicant(0, 0b011)]
     assert any(it == 1 for it, *_ in t.merges)
+
+
+def test_dense_function_beyond_cube_limit_is_rejected_quickly():
+    import time
+
+    from ttl_designer.logic.qm import TooLargeError
+
+    # A'·B con 16 variables: 2^14 mintérminos contiguos, hasta 3^14 cubos
+    n = 16
+    ms = [m for m in range(1 << n) if (m >> 15) & 1 == 0 and (m >> 14) & 1 == 1]
+    t = time.perf_counter()
+    with pytest.raises(TooLargeError):
+        minimize(n, ms)
+    assert time.perf_counter() - t < 30
