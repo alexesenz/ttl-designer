@@ -1,0 +1,2509 @@
+{
+  "schema_version": "1.0",
+  "family": "74LS",
+  "generated": "2026-10-18",
+  "family_defaults": {
+    "vcc_min_V": 4.75,
+    "vcc_nom_V": 5.0,
+    "vcc_max_V": 5.25,
+    "vih_min_V": 2.0,
+    "vil_max_V": 0.8,
+    "voh_min_V": 2.5,
+    "voh_test_ioh_mA": -0.4,
+    "vol_max_V": 0.5,
+    "vol_test_iol_mA": 8,
+    "iih_max_uA": 20,
+    "iil_max_mA": -0.4,
+    "ioh_max_mA": -0.4,
+    "iol_max_mA": 8,
+    "fanout_ls_loads": null,
+    "unused_input_recommendation": "All unused inputs of digital logic devices must be connected to a high or low bias to prevent them from floating. With gates, another solution is to connect unused inputs to an input of the same gate that is in use; the function of the device is unaffected. If a low level is required, the input should be directly connected to GND; if a high level is required, it should be connected with a voltage source corresponding with a high level, in general the positive supply voltage VCC. A high level should be applied to the unused inputs of an AND (NAND) function and a low level to unused inputs of an OR (NOR) function. [cita condensada de TI SDYA009C, Designing With Logic, sec. 3 'Unused Inputs'; la nota de la resistencia serie RS aplica a SN74 y SN74S, no a LS]",
+    "decoupling_recommendation": "Each VCC pin must have a good bypass capacitor to prevent power disturbance. For devices with a single supply, 0.1 uF is recommended; if there are multiple VCC pins, then 0.01 uF or 0.022 uF is recommended for each power pin. It is acceptable to parallel multiple bypass capacitors to reject different frequencies of noise. A 0.1 uF and a 1 uF are commonly used in parallel. The bypass capacitor must be installed as close to the power pin as possible for best results. [cita literal de TI SDLS025D, sec. 10 'Power Supply Recommendations']",
+    "sources": [
+      "TI-SDLS025D",
+      "TI-SDYA009C"
+    ]
+  },
+  "chips": [
+    {
+      "part": "74LS00",
+      "description": "Quadruple 2-Input Positive-NAND Gates",
+      "function": "NAND",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            10,
+            9
+          ],
+          "output": 8
+        },
+        {
+          "id": "D",
+          "inputs": [
+            13,
+            12
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 0.8,
+        "icch_max_mA": 1.6,
+        "iccl_typ_mA": 2.4,
+        "iccl_max_mA": 4.4,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 9,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 15,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SSOP-14",
+          "suffix_ti": "DB"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS00N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS00DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS00DBR",
+          "package": "SSOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS00NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls00.pdf",
+          "revision": "SDLS025D"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS00.pdf",
+          "revision": "DS006439 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS025D",
+        "FAIRCHILD-DS006439"
+      ],
+      "unverified": [
+        "output_type",
+        "schmitt_trigger",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS02",
+      "description": "Quadruple 2-Input Positive-NOR Gates",
+      "function": "NOR",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            2,
+            3
+          ],
+          "output": 1
+        },
+        {
+          "id": "B",
+          "inputs": [
+            5,
+            6
+          ],
+          "output": 4
+        },
+        {
+          "id": "C",
+          "inputs": [
+            8,
+            9
+          ],
+          "output": 10
+        },
+        {
+          "id": "D",
+          "inputs": [
+            11,
+            12
+          ],
+          "output": 13
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 1.6,
+        "icch_max_mA": 3.2,
+        "iccl_typ_mA": 2.8,
+        "iccl_max_mA": 5.4,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 10,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 15,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS02N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS02DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS02NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS02D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls02.pdf",
+          "revision": "SDLS027"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS02.pdf",
+          "revision": "DS006441 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS027",
+        "FAIRCHILD-DS006441"
+      ],
+      "unverified": [
+        "output_type",
+        "schmitt_trigger",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS04",
+      "description": "Hex Inverters",
+      "function": "NOT",
+      "inputs_per_gate": 1,
+      "gates_per_package": 6,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1
+          ],
+          "output": 2
+        },
+        {
+          "id": "B",
+          "inputs": [
+            3
+          ],
+          "output": 4
+        },
+        {
+          "id": "C",
+          "inputs": [
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "D",
+          "inputs": [
+            9
+          ],
+          "output": 8
+        },
+        {
+          "id": "E",
+          "inputs": [
+            11
+          ],
+          "output": 10
+        },
+        {
+          "id": "F",
+          "inputs": [
+            13
+          ],
+          "output": 12
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 1.2,
+        "icch_max_mA": 2.4,
+        "iccl_typ_mA": 3.6,
+        "iccl_max_mA": 6.6,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 9,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 15,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        },
+        {
+          "code": "SSOP-14",
+          "suffix_ti": "DB"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS04N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS04D",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS04DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS04DBR",
+          "package": "SSOP-14",
+          "lifecycle": "active"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls04.pdf",
+          "revision": "SDLS029C"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS04.pdf",
+          "revision": "DS006345 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS029C",
+        "FAIRCHILD-DS006345"
+      ],
+      "unverified": [
+        "output_type",
+        "schmitt_trigger",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS08",
+      "description": "Quadruple 2-Input Positive-AND Gates",
+      "function": "AND",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10
+          ],
+          "output": 8
+        },
+        {
+          "id": "D",
+          "inputs": [
+            12,
+            13
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 2.4,
+        "icch_max_mA": 4.8,
+        "iccl_typ_mA": 4.4,
+        "iccl_max_mA": 8.8,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 8,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 20,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SSOP-14",
+          "suffix_ti": "DB"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS08N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS08D",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS08DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS08DBR",
+          "package": "SSOP-14",
+          "lifecycle": "active"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls08.pdf",
+          "revision": "SDLS033"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS08.pdf",
+          "revision": "DS006347 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS033",
+        "FAIRCHILD-DS006347"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS10",
+      "description": "Triple 3-Input Positive-NAND Gates",
+      "function": "NAND",
+      "inputs_per_gate": 3,
+      "gates_per_package": 3,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2,
+            13
+          ],
+          "output": 12
+        },
+        {
+          "id": "B",
+          "inputs": [
+            3,
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10,
+            11
+          ],
+          "output": 8
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 0.6,
+        "icch_max_mA": 1.2,
+        "iccl_typ_mA": 1.8,
+        "iccl_max_mA": 3.3,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 9,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 15,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS10N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS10DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS10NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS10D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls10.pdf",
+          "revision": "SDLS035A"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS10.pdf",
+          "revision": "DS006349 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS035A",
+        "FAIRCHILD-DS006349"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS11",
+      "description": "Triple 3-Input Positive-AND Gates",
+      "function": "AND",
+      "inputs_per_gate": 3,
+      "gates_per_package": 3,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2,
+            13
+          ],
+          "output": 12
+        },
+        {
+          "id": "B",
+          "inputs": [
+            3,
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10,
+            11
+          ],
+          "output": 8
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 1.8,
+        "icch_max_mA": 3.6,
+        "iccl_typ_mA": 3.3,
+        "iccl_max_mA": 6.6,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 8,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 20,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS11N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS11DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS11D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls11.pdf",
+          "revision": "SDLS131"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS11.pdf",
+          "revision": "DS006350 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS131",
+        "FAIRCHILD-DS006350"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS14",
+      "description": "Hex Schmitt-Trigger Inverters",
+      "function": "NOT",
+      "inputs_per_gate": 1,
+      "gates_per_package": 6,
+      "output_type": "totem_pole",
+      "schmitt_trigger": true,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1
+          ],
+          "output": 2
+        },
+        {
+          "id": "B",
+          "inputs": [
+            3
+          ],
+          "output": 4
+        },
+        {
+          "id": "C",
+          "inputs": [
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "D",
+          "inputs": [
+            9
+          ],
+          "output": 8
+        },
+        {
+          "id": "E",
+          "inputs": [
+            11
+          ],
+          "output": 10
+        },
+        {
+          "id": "F",
+          "inputs": [
+            13
+          ],
+          "output": 12
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 8.6,
+        "icch_max_mA": 16,
+        "iccl_typ_mA": 12,
+        "iccl_max_mA": 21,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": {
+          "vt_pos_typ_V": 1.6,
+          "vt_neg_typ_V": 0.8,
+          "hysteresis_typ_V": 0.8
+        }
+      },
+      "timing": {
+        "tplh_typ_ns": 15,
+        "tplh_max_ns": 22,
+        "tphl_typ_ns": 15,
+        "tphl_max_ns": 22,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": null,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SSOP-14",
+          "suffix_ti": "DB"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS14N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS14D",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS14DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS14DBR",
+          "package": "SSOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS14NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls14.pdf",
+          "revision": "SDLS049C"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS14.pdf",
+          "revision": "DS006353 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS049C",
+        "FAIRCHILD-DS006353"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "timing.test_conditions.rl_ohm"
+      ]
+    },
+    {
+      "part": "74LS20",
+      "description": "Dual 4-Input Positive-NAND Gates",
+      "function": "NAND",
+      "inputs_per_gate": 4,
+      "gates_per_package": 2,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [
+        3,
+        11
+      ],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2,
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "B",
+          "inputs": [
+            9,
+            10,
+            12,
+            13
+          ],
+          "output": 8
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 0.4,
+        "icch_max_mA": 0.8,
+        "iccl_typ_mA": 1.2,
+        "iccl_max_mA": 2.2,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 9,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 15,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS20N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS20DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS20NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS20D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls20.pdf",
+          "revision": "SDLS079"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS20.pdf",
+          "revision": "DS006355 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS079",
+        "FAIRCHILD-DS006355"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS21",
+      "description": "Dual 4-Input Positive-AND Gates",
+      "function": "AND",
+      "inputs_per_gate": 4,
+      "gates_per_package": 2,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [
+        3,
+        11
+      ],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2,
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "B",
+          "inputs": [
+            9,
+            10,
+            12,
+            13
+          ],
+          "output": 8
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 1.2,
+        "icch_max_mA": 2.4,
+        "iccl_typ_mA": 2.2,
+        "iccl_max_mA": 4.4,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 8,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 20,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS21N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS21DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS21NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS21D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls21.pdf",
+          "revision": "SDLS139"
+        }
+      ],
+      "sources": [
+        "TI-SDLS139"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt",
+        "datasheets[1]"
+      ]
+    },
+    {
+      "part": "74LS27",
+      "description": "Triple 3-Input Positive-NOR Gates",
+      "function": "NOR",
+      "inputs_per_gate": 3,
+      "gates_per_package": 3,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2,
+            13
+          ],
+          "output": 12
+        },
+        {
+          "id": "B",
+          "inputs": [
+            3,
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10,
+            11
+          ],
+          "output": 8
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 2,
+        "icch_max_mA": 4,
+        "iccl_typ_mA": 3.4,
+        "iccl_max_mA": 6.8,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 10,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 15,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS27N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS27DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS27NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS27D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls27.pdf",
+          "revision": "SDLS089"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS27.pdf",
+          "revision": "DS006359 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS089",
+        "FAIRCHILD-DS006359"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS30",
+      "description": "8-Input Positive-NAND Gates",
+      "function": "NAND",
+      "inputs_per_gate": 8,
+      "gates_per_package": 1,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [
+        9,
+        10,
+        13
+      ],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            11,
+            12
+          ],
+          "output": 8
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 0.35,
+        "icch_max_mA": 0.5,
+        "iccl_typ_mA": 0.6,
+        "iccl_max_mA": 1.1,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 8,
+        "tplh_max_ns": 15,
+        "tphl_typ_ns": 13,
+        "tphl_max_ns": 20,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS30N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS30DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS30D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls30.pdf",
+          "revision": "SDLS099"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS30.pdf",
+          "revision": "DS006360 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS099",
+        "FAIRCHILD-DS006360"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS32",
+      "description": "Quadruple 2-Input Positive-OR Gates",
+      "function": "OR",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10
+          ],
+          "output": 8
+        },
+        {
+          "id": "D",
+          "inputs": [
+            12,
+            13
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 3.1,
+        "icch_max_mA": 6.2,
+        "iccl_typ_mA": 4.9,
+        "iccl_max_mA": 9.8,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 14,
+        "tplh_max_ns": 22,
+        "tphl_typ_ns": 14,
+        "tphl_max_ns": 22,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SSOP-14",
+          "suffix_ti": "DB"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS32N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS32DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS32DBR",
+          "package": "SSOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS32NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS32D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls32.pdf",
+          "revision": "SDLS100"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS32.pdf",
+          "revision": "DS006361 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS100",
+        "FAIRCHILD-DS006361"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS86",
+      "description": "Quadruple 2-Input Exclusive-OR Gates (data from SN74LS86A)",
+      "function": "XOR",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "totem_pole",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10
+          ],
+          "output": 8
+        },
+        {
+          "id": "D",
+          "inputs": [
+            12,
+            13
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": null,
+        "icch_max_mA": null,
+        "iccl_typ_mA": null,
+        "iccl_max_mA": null,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": -0.8,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 12,
+        "tplh_max_ns": 23,
+        "tphl_typ_ns": 10,
+        "tphl_max_ns": 17,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS86AN",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS86ADR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS86ANSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS86AD",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls86a.pdf",
+          "revision": "SDLS124"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS86.pdf",
+          "revision": "DS006380 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS124",
+        "FAIRCHILD-DS006380"
+      ],
+      "unverified": [
+        "part",
+        "output_type",
+        "electrical.icch_typ_mA",
+        "electrical.icch_max_mA",
+        "electrical.iccl_typ_mA",
+        "electrical.iccl_max_mA",
+        "electrical.schmitt",
+        "timing.tplh_typ_ns",
+        "timing.tplh_max_ns",
+        "timing.tphl_typ_ns",
+        "timing.tphl_max_ns"
+      ]
+    },
+    {
+      "part": "74LS132",
+      "description": "Quadruple 2-Input Positive-NAND Schmitt Triggers",
+      "function": "NAND",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "totem_pole",
+      "schmitt_trigger": true,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10
+          ],
+          "output": 8
+        },
+        {
+          "id": "D",
+          "inputs": [
+            12,
+            13
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 5.9,
+        "icch_max_mA": 11,
+        "iccl_typ_mA": 8.2,
+        "iccl_max_mA": 14,
+        "ios_min_mA": -20,
+        "ios_max_mA": -100,
+        "iil_max_mA": null,
+        "schmitt": {
+          "vt_pos_typ_V": 1.6,
+          "vt_neg_typ_V": 0.8,
+          "hysteresis_typ_V": 0.8
+        }
+      },
+      "timing": {
+        "tplh_typ_ns": 15,
+        "tplh_max_ns": 22,
+        "tphl_typ_ns": 15,
+        "tphl_max_ns": 22,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS132N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS132DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS132NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS132D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls132.pdf",
+          "revision": "SDLS047"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS132.pdf",
+          "revision": "DS006389 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS047",
+        "FAIRCHILD-DS006389"
+      ],
+      "unverified": [
+        "output_type",
+        "electrical.iil_max_mA"
+      ]
+    },
+    {
+      "part": "74LS03",
+      "description": "Quadruple 2-Input Positive-NAND Gates With Open-Collector Outputs",
+      "function": "NAND",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "open_collector",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            4,
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "C",
+          "inputs": [
+            9,
+            10
+          ],
+          "output": 8
+        },
+        {
+          "id": "D",
+          "inputs": [
+            12,
+            13
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 0.8,
+        "icch_max_mA": 1.6,
+        "iccl_typ_mA": 2.4,
+        "iccl_max_mA": 4.4,
+        "ios_min_mA": null,
+        "ios_max_mA": null,
+        "iil_max_mA": -0.4,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 17,
+        "tplh_max_ns": 32,
+        "tphl_typ_ns": 15,
+        "tphl_max_ns": 28,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS03N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS03DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS03NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS03D",
+          "package": "SOIC-14",
+          "lifecycle": "obsolete"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls03.pdf",
+          "revision": "SDLS028"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS03.pdf",
+          "revision": "DS006344 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS028",
+        "FAIRCHILD-DS006344"
+      ],
+      "unverified": [
+        "electrical.ios_min_mA",
+        "electrical.ios_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS05",
+      "description": "Hex Inverters With Open-Collector Outputs",
+      "function": "NOT",
+      "inputs_per_gate": 1,
+      "gates_per_package": 6,
+      "output_type": "open_collector",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1
+          ],
+          "output": 2
+        },
+        {
+          "id": "B",
+          "inputs": [
+            3
+          ],
+          "output": 4
+        },
+        {
+          "id": "C",
+          "inputs": [
+            5
+          ],
+          "output": 6
+        },
+        {
+          "id": "D",
+          "inputs": [
+            9
+          ],
+          "output": 8
+        },
+        {
+          "id": "E",
+          "inputs": [
+            11
+          ],
+          "output": 10
+        },
+        {
+          "id": "F",
+          "inputs": [
+            13
+          ],
+          "output": 12
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": 1.2,
+        "icch_max_mA": 2.4,
+        "iccl_typ_mA": 3.6,
+        "iccl_max_mA": 6.6,
+        "ios_min_mA": null,
+        "ios_max_mA": null,
+        "iil_max_mA": -0.4,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 17,
+        "tplh_max_ns": 32,
+        "tphl_typ_ns": 15,
+        "tphl_max_ns": 28,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        },
+        {
+          "code": "SOP-14",
+          "suffix_ti": "NS"
+        },
+        {
+          "code": "SSOP-14",
+          "suffix_ti": "DB"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS05N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS05D",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS05DR",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS05NSR",
+          "package": "SOP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS05DBR",
+          "package": "SSOP-14",
+          "lifecycle": "active"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls05.pdf",
+          "revision": "SDLS030A"
+        },
+        {
+          "manufacturer": "Fairchild Semiconductor",
+          "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS05.pdf",
+          "revision": "DS006346 (Rev. March 2000)"
+        }
+      ],
+      "sources": [
+        "TI-SDLS030A",
+        "FAIRCHILD-DS006346"
+      ],
+      "unverified": [
+        "electrical.ios_min_mA",
+        "electrical.ios_max_mA",
+        "electrical.schmitt"
+      ]
+    },
+    {
+      "part": "74LS266",
+      "description": "Quadruple 2-Input Exclusive-NOR Gates With Open-Collector Outputs",
+      "function": "XNOR",
+      "inputs_per_gate": 2,
+      "gates_per_package": 4,
+      "output_type": "open_collector",
+      "schmitt_trigger": false,
+      "package_pins": 14,
+      "power_pins": {
+        "vcc": 14,
+        "gnd": 7
+      },
+      "nc_pins": [],
+      "gates": [
+        {
+          "id": "A",
+          "inputs": [
+            1,
+            2
+          ],
+          "output": 3
+        },
+        {
+          "id": "B",
+          "inputs": [
+            5,
+            6
+          ],
+          "output": 4
+        },
+        {
+          "id": "C",
+          "inputs": [
+            8,
+            9
+          ],
+          "output": 10
+        },
+        {
+          "id": "D",
+          "inputs": [
+            12,
+            13
+          ],
+          "output": 11
+        }
+      ],
+      "electrical": {
+        "icch_typ_mA": null,
+        "icch_max_mA": null,
+        "iccl_typ_mA": null,
+        "iccl_max_mA": null,
+        "ios_min_mA": null,
+        "ios_max_mA": null,
+        "iil_max_mA": -0.8,
+        "schmitt": null
+      },
+      "timing": {
+        "tplh_typ_ns": 18,
+        "tplh_max_ns": 30,
+        "tphl_typ_ns": 18,
+        "tphl_max_ns": 30,
+        "test_conditions": {
+          "cl_pF": 15,
+          "rl_ohm": 2000,
+          "vcc_V": 5,
+          "temp_C": 25
+        }
+      },
+      "packages": [
+        {
+          "code": "DIP-14",
+          "suffix_ti": "N"
+        },
+        {
+          "code": "SOIC-14",
+          "suffix_ti": "D"
+        }
+      ],
+      "orderable_parts": [
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS266N",
+          "package": "DIP-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS266D",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        },
+        {
+          "manufacturer": "Texas Instruments",
+          "part_number": "SN74LS266DG4",
+          "package": "SOIC-14",
+          "lifecycle": "active"
+        }
+      ],
+      "datasheets": [
+        {
+          "manufacturer": "Texas Instruments",
+          "url": "https://www.ti.com/lit/ds/symlink/sn74ls266.pdf",
+          "revision": "SDLS151"
+        }
+      ],
+      "sources": [
+        "TI-SDLS151"
+      ],
+      "unverified": [
+        "electrical.icch_typ_mA",
+        "electrical.icch_max_mA",
+        "electrical.iccl_typ_mA",
+        "electrical.iccl_max_mA",
+        "electrical.ios_min_mA",
+        "electrical.ios_max_mA",
+        "electrical.schmitt",
+        "datasheets[1]"
+      ]
+    }
+  ],
+  "source_index": {
+    "TI-SDLS025D": {
+      "title": "SNx400, SNx4LS00, and SNx4S00 Quadruple 2-Input Positive-NAND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls00.pdf",
+      "revision": "SDLS025D, December 1983 - Revised May 2017",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS027": {
+      "title": "Quadruple 2-Input Positive-NOR Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls02.pdf",
+      "revision": "SDLS027, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS028": {
+      "title": "Quadruple 2-Input Positive-NAND Gates With Open-Collector Outputs",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls03.pdf",
+      "revision": "SDLS028, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS029C": {
+      "title": "Hex Inverters",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls04.pdf",
+      "revision": "SDLS029C, December 1983 - Revised January 2004",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS030A": {
+      "title": "Hex Inverters With Open-Collector Outputs",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls05.pdf",
+      "revision": "SDLS030A, December 1983 - Revised November 2003",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS033": {
+      "title": "Quadruple 2-Input Positive-AND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls08.pdf",
+      "revision": "SDLS033, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS035A": {
+      "title": "Triple 3-Input Positive-NAND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls10.pdf",
+      "revision": "SDLS035A, December 1983 - Revised April 2003 (paginas LS rotuladas SDLS035, Revised March 1988)",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS047": {
+      "title": "Quadruple 2-Input Positive-NAND Schmitt Triggers",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls132.pdf",
+      "revision": "SDLS047, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS049C": {
+      "title": "SNx414 and SNx4LS14 Hex Schmitt-Trigger Inverters",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls14.pdf",
+      "revision": "SDLS049C, December 1983 - Revised November 2016",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS079": {
+      "title": "Dual 4-Input Positive-NAND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls20.pdf",
+      "revision": "SDLS079, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS089": {
+      "title": "Triple 3-Input Positive-NOR Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls27.pdf",
+      "revision": "SDLS089, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS099": {
+      "title": "8-Input Positive-NAND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls30.pdf",
+      "revision": "SDLS099, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS100": {
+      "title": "Quadruple 2-Input Positive-OR Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls32.pdf",
+      "revision": "SDLS100, December 1983 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS124": {
+      "title": "Quadruple 2-Input Exclusive-OR Gates (SN54LS86A / SN74LS86A)",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls86a.pdf",
+      "revision": "SDLS124, December 1972 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS131": {
+      "title": "Triple 3-Input Positive-AND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls11.pdf",
+      "revision": "SDLS131, April 1985 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS139": {
+      "title": "Dual 4-Input Positive-AND Gates",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls21.pdf",
+      "revision": "SDLS139, April 1985 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDLS151": {
+      "title": "Quadruple 2-Input Exclusive-NOR Gates With Open-Collector Outputs",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls266.pdf",
+      "revision": "SDLS151, December 1972 - Revised March 1988",
+      "accessed": "2026-10-18"
+    },
+    "TI-SDYA009C": {
+      "title": "Designing With Logic",
+      "manufacturer": "Texas Instruments",
+      "url": "https://www.ti.com/lit/pdf/sdya009",
+      "revision": "SDYA009C, June 1997",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006344": {
+      "title": "DM74LS03 Quad 2-Input NAND Gates with Open-Collector Outputs",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS03.pdf",
+      "revision": "DS006344, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006346": {
+      "title": "DM74LS05 Hex Inverters with Open-Collector Outputs",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS05.pdf",
+      "revision": "DS006346, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006347": {
+      "title": "DM74LS08 Quad 2-Input AND Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS08.pdf",
+      "revision": "DS006347, Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006349": {
+      "title": "DM74LS10 Triple 3-Input NAND Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS10.pdf",
+      "revision": "DS006349, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006350": {
+      "title": "DM74LS11 Triple 3-Input AND Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS11.pdf",
+      "revision": "DS006350, Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006353": {
+      "title": "DM74LS14 Hex Inverter with Schmitt Trigger Inputs",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS14.pdf",
+      "revision": "DS006353, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006359": {
+      "title": "DM74LS27 Triple 3-Input NOR Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS27.pdf",
+      "revision": "DS006359, May 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006361": {
+      "title": "DM74LS32 Quad 2-Input OR Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS32.pdf",
+      "revision": "DS006361, June 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006380": {
+      "title": "DM74LS86 Quad 2-Input Exclusive-OR Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS86.pdf",
+      "revision": "DS006380, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006389": {
+      "title": "DM74LS132 Quad 2-Input NAND Gate with Schmitt Trigger Input",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS132.pdf",
+      "revision": "DS006389, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006439": {
+      "title": "DM74LS00 Quad 2-Input NAND Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS00.pdf",
+      "revision": "DS006439, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006441": {
+      "title": "DM74LS02 Quad 2-Input NOR Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS02.pdf",
+      "revision": "DS006441, May 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006345": {
+      "title": "DM74LS04 Hex Inverting Gates",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS04.pdf",
+      "revision": "DS006345, August 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006355": {
+      "title": "DM74LS20 Dual 4-Input NAND Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS20.pdf",
+      "revision": "DS006355, June 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    },
+    "FAIRCHILD-DS006360": {
+      "title": "DM74LS30 8-Input NAND Gate",
+      "manufacturer": "Fairchild Semiconductor",
+      "url": "https://media.digikey.com/pdf/Data%20Sheets/Fairchild%20PDFs/DM74LS30.pdf",
+      "revision": "DS006360, May 1986 - Revised March 2000",
+      "accessed": "2026-10-18"
+    }
+  }
+}
