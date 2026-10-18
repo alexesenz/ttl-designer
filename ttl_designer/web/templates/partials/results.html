@@ -1,0 +1,214 @@
+{% if oob %}{% include "partials/error.html" %}{% endif %}
+{% if not v.has_result %}
+<div class="empty">
+  <svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="16" y="8" width="24" height="40" rx="3"/><path d="M16 16H8M16 24H8M16 32H8M16 40H8M40 16h8M40 24h8M40 32h8M40 40h8"/><path d="M24 8a4 4 0 0 0 8 0"/></svg>
+  <h2>{% if v.error %}Corrige la especificación{% else %}Sin resultados todavía{% endif %}</h2>
+  <p class="muted">Escribe una o más ecuaciones y presiona Calcular. Verás la tabla de verdad, los candidatos por estrategia, el esquemático, la vista de chips, el BOM y el DRC.</p>
+  <p class="eyebrow">Ejemplos</p>
+  <div class="examples">
+    {% for label, qs in examples %}
+    <a class="btn" href="/?{{ qs }}" hx-get="/?{{ qs }}" hx-target="#results" hx-push-url="true" hx-indicator="#busy" data-example="1">{{ label }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+{% set d = v.data %}
+<div class="result-head">
+  <h2>{{ d.title }}</h2>
+  <span class="muted">Elegido: <span class="mono fg">{{ d.selected.source }} · {{ d.strategy_label }}</span> —
+    {{ d.selected.design.ic_count }} IC{{ "s" if d.selected.design.ic_count != 1 }} ·
+    {{ d.selected.design.netlist.depth() }} niveles · {{ d.selected.design.netlist.gates|length }} compuertas</span>
+</div>
+
+<div class="tablist" role="tablist" aria-label="Vistas del diseño" data-tabs>
+  <button type="button" role="tab" id="tab-resumen" aria-controls="panel-resumen" aria-selected="true">Resumen</button>
+  <button type="button" role="tab" id="tab-logica" aria-controls="panel-logica" aria-selected="false">Lógica</button>
+  <button type="button" role="tab" id="tab-candidatos" aria-controls="panel-candidatos" aria-selected="false">Candidatos <span class="count">{{ d.candidates|length }}</span></button>
+  <button type="button" role="tab" id="tab-esquematico" aria-controls="panel-esquematico" aria-selected="false">Esquemático</button>
+  <button type="button" role="tab" id="tab-chips" aria-controls="panel-chips" aria-selected="false">Chips <span class="count">{{ d.chips|length }}</span></button>
+  <button type="button" role="tab" id="tab-bom" aria-controls="panel-bom" aria-selected="false">BOM <span class="count">{{ v.bom.gaps|length }} hueco{{ "s" if v.bom.gaps|length != 1 }}</span></button>
+  <button type="button" role="tab" id="tab-drc" aria-controls="panel-drc" aria-selected="false">DRC <span class="count">{{ d.drc_counts.error }} error{{ "es" if d.drc_counts.error != 1 }}</span></button>
+</div>
+
+{# ---------------- Resumen ---------------- #}
+<div class="panel" role="tabpanel" id="panel-resumen" aria-labelledby="tab-resumen">
+  <div class="axes">
+    <div class="axis">
+      <span class="eyebrow">Corrección lógica</span>
+      {% if d.equivalent %}
+      <span class="axis-value ok">{% include "partials/icon-ok.html" %} Equivalente</span>
+      <span class="muted">{{ d.n_rows }} de {{ d.n_rows }} filas coinciden con la especificación{% if v.state.dont_cares.strip() %} (sin contar don't-cares){% endif %}</span>
+      {% else %}
+      <span class="axis-value err">{% include "partials/icon-err.html" %} No equivalente</span>
+      {% endif %}
+    </div>
+    <div class="axis">
+      <span class="eyebrow">DRC eléctrico</span>
+      {% if v.drc.ok %}
+      <span class="axis-value ok">{% include "partials/icon-ok.html" %} Sin errores</span>
+      {% else %}
+      <span class="axis-value err">{% include "partials/icon-err.html" %} {{ d.drc_counts.error }} error{{ "es" if d.drc_counts.error != 1 }}</span>
+      {% endif %}
+      <span class="muted">{{ d.drc_counts.advertencia }} advertencia{{ "s" if d.drc_counts.advertencia != 1 }} · {{ d.drc_counts.no_evaluable }} no evaluable{{ "s" if d.drc_counts.no_evaluable != 1 }} · {{ d.drc_counts.info }} informativo{{ "s" if d.drc_counts.info != 1 }}</span>
+    </div>
+    <div class="axis">
+      <span class="eyebrow">Huecos del BOM</span>
+      {% if v.bom.gaps %}
+      <span class="axis-value warn">{% include "partials/icon-warn.html" %} {{ v.bom.gaps|length }} hueco{{ "s" if v.bom.gaps|length != 1 }}</span>
+      <span class="muted">{{ v.bom.gaps|map(attribute="target")|unique|join(", ") }}</span>
+      {% else %}
+      <span class="axis-value ok">{% include "partials/icon-ok.html" %} Sin huecos</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-tt">
+      <h3>Tabla de verdad</h3>
+      {% include "partials/truth.html" %}
+    </div>
+    <div class="col-chips">
+      <h3>Chips</h3>
+      {% if d.chips %}
+      <div class="table-box">
+      <table>
+        <thead><tr><th scope="col">Ref</th><th scope="col">Parte</th><th scope="col">Ranuras</th><th scope="col">Desacople</th></tr></thead>
+        <tbody>
+        {% for c in d.chips %}
+          <tr><td class="mono">{{ c.ref }}</td><td class="mono">{{ c.part }} · {{ c.kind }}</td><td>{{ c.used }} de {{ c.total }}</td><td class="mono">{{ c.cap }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      <p class="muted">Consumo máx. conocido: <span class="mono fg">{{ v.drc.power.icc_max_mA }} mA{% if v.drc.power.power_max_mW is not none %} · {{ v.drc.power.power_max_mW }} mW{% endif %}</span>{% if not v.drc.power.complete %} (excluye chips sin ICC verificado){% endif %}</p>
+      {% else %}
+      <p class="muted">El circuito no necesita chips: las salidas son entradas directas o constantes.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{# ---------------- Lógica ---------------- #}
+<div class="panel" role="tabpanel" id="panel-logica" aria-labelledby="tab-logica">
+  <div class="row">
+    <div class="col-tt">
+      <h3>Tabla de verdad</h3>
+      {% include "partials/truth.html" %}
+    </div>
+    <div class="col-wide stack">
+      {% for m in d.minimization %}
+      <article class="card">
+        <header class="card-head">
+          <h3 class="mono">{{ m.name }} = Σm({{ m.minterms|join(", ") or "—" }}){% if m.dont_cares %} + d({{ m.dont_cares|join(", ") }}){% endif %}</h3>
+          <span class="count">{{ m.method }}</span>
+        </header>
+        <p class="label">Escrita</p>
+        <p class="code mono">{{ m.original }}</p>
+        <p class="label">Implicantes primos ({{ m.primes|length }}; esenciales: {{ m.essential|length }})</p>
+        <p class="mono small">{{ m.primes|join("  ·  ") or "—" }}</p>
+        <p class="label">Mínima en SOP</p>
+        <p class="code mono">{{ m.minimized }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{# ---------------- Candidatos ---------------- #}
+<div class="panel" role="tabpanel" id="panel-candidatos" aria-labelledby="tab-candidatos">
+  <p class="muted">{{ d.candidates|length }} candidatos, todos verificados contra la especificación. Gana el de menos ICs; luego menos niveles; luego menos compuertas.</p>
+  <div class="table-box">
+    <table>
+      <thead><tr><th scope="col">Fuente</th><th scope="col">Estrategia</th><th scope="col">ICs</th><th scope="col">Niveles</th><th scope="col">Compuertas</th><th scope="col">Chips</th><th scope="col">Absorbidas</th></tr></thead>
+      <tbody>
+      {% for c in d.candidates %}
+        <tr{% if c.selected %} class="sel"{% endif %}>
+          <td>{{ c.source }}</td>
+          <td class="mono">{{ c.strategy }}{% if c.selected %} <span class="count">elegido</span>{% endif %}</td>
+          {% if c.ok %}
+          <td class="strong">{{ c.ics }}</td><td>{{ c.depth }}</td><td>{{ c.gates }}</td>
+          <td class="mono small">{% for p, n in c.parts.items() %}{{ "%d×" % n if n > 1 }}{{ p }}{{ ", " if not loop.last }}{% endfor %}</td>
+          <td>{{ c.absorbed }}</td>
+          {% else %}
+          <td colspan="5" class="muted">{{ c.error }}</td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{# ---------------- Esquemático ---------------- #}
+<div class="panel" role="tabpanel" id="panel-esquematico" aria-labelledby="tab-esquematico">
+  <div class="toolbar">
+    <button type="button" class="btn" data-fit="svg-esq" hidden>100 %</button>
+    <a class="btn" href="/descargas/esquematico.svg?{{ v.query }}" download>Descargar SVG</a>
+  </div>
+  <div class="figure fit" id="svg-esq">{{ d.schematic_svg }}</div>
+  <p class="muted">Pasa el cursor sobre un cable para ver el nombre de la red. Las entradas fijas aparecen como ↑R1 o GND junto al pin.</p>
+</div>
+
+{# ---------------- Chips ---------------- #}
+<div class="panel" role="tabpanel" id="panel-chips" aria-labelledby="tab-chips">
+  <div class="toolbar">
+    <button type="button" class="btn" data-fit="svg-chips" hidden>100 %</button>
+    <a class="btn" href="/descargas/chips.svg?{{ v.query }}" download>Descargar SVG</a>
+  </div>
+  <div class="figure fit" id="svg-chips">{{ d.chips_svg }}</div>
+</div>
+
+{# ---------------- BOM ---------------- #}
+<div class="panel" role="tabpanel" id="panel-bom" aria-labelledby="tab-bom">
+  <div class="toolbar between">
+    <span class="muted">Encapsulado {{ v.bom.options.package }} · desacople {{ "%g"|format(v.bom.options.decoupling_nF) }} nF por IC{% if v.bom.options.bulk_uF %} · bulk {{ "%g"|format(v.bom.options.bulk_uF) }} µF{% endif %} · pull-up {{ "%g"|format(v.bom.options.pullup_ohm / 1000) }} kΩ</span>
+    <span class="toolbar">
+      <a class="btn" href="/descargas/bom.csv?{{ v.query }}" download>Descargar CSV</a>
+      <a class="btn" href="/descargas/bom.json?{{ v.query }}" download>Descargar JSON</a>
+    </span>
+  </div>
+  {% if v.bom.lines %}
+  <div class="table-box">
+    <table>
+      <thead><tr><th scope="col">Referencias</th><th scope="col">Cant.</th><th scope="col">Valor</th><th scope="col">Descripción</th><th scope="col">Número de parte</th><th scope="col">Notas</th></tr></thead>
+      <tbody>
+      {% for ln in v.bom.lines %}
+        <tr>
+          <td class="mono">{{ ln.refs|join(" ") }}</td><td>{{ ln.qty }}</td><td class="mono">{{ ln.value or "—" }}</td>
+          <td>{{ ln.description }}</td>
+          <td class="mono">{% if ln.manufacturer_pn %}{% if ln.datasheet %}<a href="{{ ln.datasheet }}" rel="noopener noreferrer">{{ ln.manufacturer_pn }}</a>{% else %}{{ ln.manufacturer_pn }}{% endif %}{% else %}—{% endif %}</td>
+          <td class="small">{{ ln.notes|join("; ") }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">Sin componentes: el circuito no necesita chips.</p>
+  {% endif %}
+  {% if v.bom.gaps %}
+  <h3>Huecos</h3>
+  <ul class="list">
+    {% for g in v.bom.gaps %}
+    <li class="note warn">{% include "partials/icon-warn.html" %}<div><p class="strong"><span class="mono">{{ g.target }}</span> · {{ g.kind.value|replace("_", " ") }}</p><p class="mono small muted">{{ g.message }}</p></div></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if v.bom.gnd_pins %}<p class="muted">A GND sin componente: <span class="mono fg">{{ v.bom.gnd_pins|join(", ") }}</span></p>{% endif %}
+</div>
+
+{# ---------------- DRC ---------------- #}
+<div class="panel" role="tabpanel" id="panel-drc" aria-labelledby="tab-drc">
+  {% if not v.drc.findings %}<p class="muted">Sin hallazgos.</p>{% endif %}
+  {% for grp in d.drc_groups %}
+  <section class="stack-sm" aria-label="{{ grp.title }}">
+    <h3 class="sev sev-{{ grp.css }}">{{ grp.title }} <span class="count">{{ grp.findings|length }}</span></h3>
+    <ul class="list">
+      {% for f in grp.findings %}
+      <li class="finding"><span class="mono">{{ f.rule }}</span><span class="mono muted">{{ f.target }}</span><span>{{ f.message }}</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="htmx-config" content='{"includeIndicatorStyles": false, "allowEval": false, "allowScriptTags": false, "selfRequestsOnly": true}'>
+  <title>{% if v.has_result %}{{ v.data.title }} · {% endif %}TTL Designer</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/theme.js"></script>
+  <script src="/static/vendor/htmx-2.0.4.min.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#results">Saltar a los resultados</a>
+
+<header class="topbar">
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="4" width="14" height="20" rx="2"/><path d="M7 9H3M7 14H3M7 19H3M21 9h4M21 14h4M21 19h4"/><path d="M12 4a2 2 0 0 0 4 0"/></svg>
+    <div>
+      <a href="/" class="brand-name">TTL Designer</a>
+      <span class="brand-sub">Circuitos combinacionales con 74LS</span>
+    </div>
+  </div>
+  <nav aria-label="Enlaces">
+    <a href="https://github.com/alexesenz/ttl-designer/tree/main/docs/decisions">Decisiones de diseño</a>
+    <a href="/docs">API</a>
+    <button type="button" class="btn" id="theme-toggle" aria-label="Cambiar tema" hidden>
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 0 0 12z" fill="currentColor"/></svg>
+      <span id="theme-label">Tema</span>
+    </button>
+  </nav>
+</header>
+
+<main class="workspace">
+  <section class="spec" aria-labelledby="spec-h">
+    <h2 id="spec-h" class="eyebrow">Especificación</h2>
+    <form id="spec" action="/" method="get"
+          hx-get="/" hx-target="#results" hx-swap="innerHTML" hx-push-url="true" hx-indicator="#busy">
+      <input type="hidden" name="f" value="1">
+      <div class="field">
+        <label for="eq">Ecuaciones</label>
+        <textarea id="eq" name="eq" class="mono" rows="5" spellcheck="false" autocomplete="off"
+                  aria-describedby="eq-help eq-error"{% if v.error and v.error.line is not none %} aria-invalid="true"{% endif %}>{{ v.state.equations }}</textarea>
+        <p id="eq-help" class="help mono">NOT A' !A ~A · AND A·B A*B A B · XOR A^B · OR A+B<br>Una ecuación por línea o separadas con ;</p>
+        {% include "partials/error.html" %}
+      </div>
+
+      <div class="field">
+        <label for="dc">Don't-cares <span class="muted">(índices Σm por salida)</span></label>
+        <textarea id="dc" name="dc" class="mono" rows="2" spellcheck="false" placeholder="S: 10-15">{{ v.state.dont_cares }}</textarea>
+      </div>
+
+      <details class="options"{% if v.state.strategies|length < 5 or v.state.package != 'DIP-14' or v.state.allow_open_collector or v.state.allow_schmitt or v.state.excluded %} open{% endif %}>
+        <summary>Opciones de mapeo</summary>
+        <div class="options-body">
+          <fieldset>
+            <legend>Estrategias</legend>
+            {% for key, label in strategy_labels.items() %}
+            <label class="chk"><input type="checkbox" name="s" value="{{ key }}"{% if key in v.state.strategies %} checked{% endif %}> {{ label }}</label>
+            {% endfor %}
+          </fieldset>
+          <div class="field">
+            <label for="pkg">Encapsulado</label>
+            <select id="pkg" name="pkg">
+              {% for p in packages %}<option value="{{ p }}"{% if p == v.state.package %} selected{% endif %}>{{ p }}{% if p == 'DIP-14' %} (protoboard){% endif %}</option>{% endfor %}
+            </select>
+          </div>
+          <div>
+            <label class="chk"><input type="checkbox" name="oc" value="1"{% if v.state.allow_open_collector %} checked{% endif %}> Permitir colector abierto</label>
+            <label class="chk"><input type="checkbox" name="st" value="1"{% if v.state.allow_schmitt %} checked{% endif %}> Permitir Schmitt</label>
+          </div>
+          <div class="field">
+            <label for="ex">Excluir partes</label>
+            <input id="ex" name="ex" class="mono" type="text" placeholder="74LS86, …" value="{{ v.state.excluded }}">
+          </div>
+        </div>
+      </details>
+
+      <div class="actions">
+        <button type="submit" class="btn primary">Calcular <kbd>Ctrl+Enter</kbd></button>
+        <button type="button" class="btn" id="copy-link" hidden>
+          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.5 9.5l3-3M5 7L3.5 8.5a2.5 2.5 0 0 0 3.5 3.5L8.5 10.5M11 9l1.5-1.5A2.5 2.5 0 0 0 9 4L7.5 5.5"/></svg>
+          <span>Copiar enlace</span>
+        </button>
+        <span id="busy" class="busy" role="status"><span class="spinner" aria-hidden="true"></span> Calculando…</span>
+      </div>
+      <p class="help">El diseño vive en la URL: compártelo copiando el enlace.</p>
+    </form>
+  </section>
+
+  <section id="results" class="results" aria-label="Resultados" tabindex="-1">
+    {% include "partials/results.html" %}
+  </section>
+</main>
+</body>
+</html>

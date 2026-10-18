@@ -28,6 +28,15 @@ Mapeo a chips 74LS (`ttl_designer/techmap/`): cinco estrategias (mixta, NAND, NO
 NAND+XOR, NOR+XOR) sobre la forma minimizada y la original, absorción de compuertas
 sueltas en ranuras libres y asignación a chips y pines. Elige por número de ICs.
 
+## Interfaz web
+
+Con el servidor corriendo, la interfaz está en `/`: se escriben las ecuaciones, se calcula
+con Ctrl+Enter y el resultado aparece en pestañas (resumen, lógica, candidatos,
+esquemático, chips, BOM, DRC). El diseño vive en la URL, así que se comparte copiando el
+enlace. Tema claro y oscuro.
+
+![Interfaz: resumen del sumador completo](docs/img/interfaz-resumen.png)
+
 ## Vista de chips
 
 Sumador completo mapeado a 7400 + 7486, con el pinout etiquetado y la tabla de conexiones:
@@ -44,6 +53,7 @@ Multiplexor 4:1 en NAND (7400, 7410, 7420), con la ubicación de cada compuerta:
 
 | ruta | qué hace |
 |---|---|
+| `GET /` | interfaz web; el diseño va en la query string (`?eq=...`) |
 | `POST /api/analyze` | tabla de verdad, minimización con traza, netlist lógico |
 | `POST /api/map` | candidatos por estrategia, diseño elegido (chips, pines, entradas fijas), DRC y BOM |
 | `POST /api/bom/export?format=csv\|json` | BOM del diseño elegido como archivo descargable |

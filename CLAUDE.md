@@ -24,7 +24,7 @@ python -m venv .venv && .venv/bin/pip install -e '.[dev]'
 .venv/bin/pre-commit install                       # ruff + mypy + pytest en cada commit
 .venv/bin/pytest -q
 .venv/bin/ruff check . && .venv/bin/ruff format --check . && .venv/bin/mypy
-.venv/bin/uvicorn ttl_designer.app:app --reload    # http://127.0.0.1:8000/docs
+.venv/bin/uvicorn ttl_designer.app:app --reload    # interfaz en /, API en /docs
 ```
 
 ## Mapa de módulos
@@ -46,6 +46,8 @@ ttl_designer/drc.py               DRC: fan-out, flotantes, conflictos, consumo (
 ttl_designer/electrical.py        cargas de entrada y pull-ups calculados desde el catálogo
 ttl_designer/render/chips.py      vista de chips SVG: pinout etiquetado y conexiones (§SVG)
 ttl_designer/render/schematic.py  esquemático lógico SVG: capas, carriles (§ESQUEMATICO)
+ttl_designer/render/theme.py      CSS de los SVG con alcance propio (incrustables en la página)
+ttl_designer/web/                 interfaz: Jinja2 + htmx vendorizado, estado en la URL (§FRONTEND)
 ttl_designer/api/                 rutas FastAPI y esquemas de request/response
 ttl_designer/app.py               app FastAPI; /health con versión y commit
 deploy/                           unidad systemd e install.sh (§DESPLIEGUE)
@@ -76,6 +78,8 @@ library/                          ttl_ls_catalog.json (datos, no código)
 - **Circuitos dorados** (`tests/golden/`): el resultado del mapeo está fijado. Moverlo exige
   `scripts/update_golden.py --reason "..."` y explicar el cambio en el commit.
 - **Entradas sobrantes** (§MAPEO): AND/NAND a pull-up de 1 kΩ; OR/NOR/XOR a GND.
+- **Interfaz sin lógica propia** (§FRONTEND): las rutas web llaman a las mismas funciones que
+  la API. Sin scripts en línea (CSP), sin CDN, htmx vendorizado con versión fija.
 
 ## Despliegue (Raspberry Pi)
 

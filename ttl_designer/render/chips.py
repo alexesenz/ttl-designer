@@ -17,6 +17,7 @@ from ..logic.build import INTERNAL_NET_PREFIX
 from ..models.catalog import Catalog, Chip
 from ..models.netlist import CONSTANT_NETS
 from ..models.physical import PhysicalDesign, TieTarget
+from .theme import scoped_style
 
 # Geometría (px)
 PITCH = 26
@@ -33,34 +34,37 @@ FONT = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
 
 PALETTE = 8  # clases n0..n7; el color repite, el nombre identifica
 
-STYLE = (
+STYLE = scoped_style(
+    "ttl-chips",
+    (
+        "--bg:#ffffff; --fg:#1f2328; --muted:#6e7781; --body:#24292f; --bodytext:#f6f8fa; "
+        "--pin:#8c959f; --rule:#d0d7de; --vcc:#cf222e; --gnd:#57606a; --free:#8c959f; "
+        "--n0:#0b63c4; --n1:#c2410c; --n2:#047857; --n3:#a21caf; --n4:#9a6700; "
+        "--n5:#0e7490; --n6:#9f1239; --n7:#4d7c0f;"
+    ),
+    (
+        "--bg:#0d1117; --fg:#e6edf3; --muted:#8b949e; --body:#30363d; --bodytext:#e6edf3; "
+        "--pin:#6e7681; --rule:#30363d; --vcc:#ff7b72; --gnd:#8b949e; --free:#6e7681; "
+        "--n0:#79c0ff; --n1:#ffa657; --n2:#56d364; --n3:#e2a5f8; --n4:#e3b341; "
+        "--n5:#76e3ea; --n6:#ff9bce; --n7:#a5d6a7;"
+    ),
     """
-:root { --bg:#ffffff; --fg:#1f2328; --muted:#6e7781; --body:#24292f; --bodytext:#f6f8fa;
-  --pin:#8c959f; --rule:#d0d7de; --vcc:#cf222e; --gnd:#57606a; --free:#8c959f;
-  --n0:#0b63c4; --n1:#c2410c; --n2:#047857; --n3:#a21caf; --n4:#9a6700; --n5:#0e7490;
-  --n6:#9f1239; --n7:#4d7c0f; }
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#0d1117; --fg:#e6edf3; --muted:#8b949e; --body:#30363d; --bodytext:#e6edf3;
-    --pin:#6e7681; --rule:#30363d; --vcc:#ff7b72; --gnd:#8b949e; --free:#6e7681;
-    --n0:#79c0ff; --n1:#ffa657; --n2:#56d364; --n3:#e2a5f8; --n4:#e3b341; --n5:#76e3ea;
-    --n6:#ff9bce; --n7:#a5d6a7; }
-}
-svg { background: var(--bg); }
-text { fill: var(--fg); font-family: __FONT__; font-size: 12px; }
-.body { fill: var(--body); }
-.bodytext { fill: var(--bodytext); }
-.ref { font-weight: 700; font-size: 14px; }
-.pinno { fill: var(--bodytext); font-size: 10px; opacity: .75; }
-.stub { stroke: var(--pin); stroke-width: 3; }
-.muted { fill: var(--muted); }
-.vcc { fill: var(--vcc); font-weight: 700; }
-.gnd { fill: var(--gnd); font-weight: 700; }
-.free { fill: var(--free); font-style: italic; }
-.rule { stroke: var(--rule); stroke-width: 1; }
-.h { font-weight: 700; font-size: 14px; }
-.io { font-weight: 700; }
+& { background: var(--bg); }
+& text { fill: var(--fg); font-family: __FONT__; font-size: 12px; }
+& .body { fill: var(--body); }
+& .bodytext { fill: var(--bodytext); }
+& .ref { font-weight: 700; font-size: 14px; }
+& .pinno { fill: var(--bodytext); font-size: 10px; opacity: .75; }
+& .stub { stroke: var(--pin); stroke-width: 3; }
+& .muted { fill: var(--muted); }
+& .vcc { fill: var(--vcc); font-weight: 700; }
+& .gnd { fill: var(--gnd); font-weight: 700; }
+& .free { fill: var(--free); font-style: italic; }
+& .rule { stroke: var(--rule); stroke-width: 1; }
+& .h { font-weight: 700; font-size: 14px; }
+& .io { font-weight: 700; }
 """.replace("__FONT__", FONT)
-    + "\n".join(f".n{i} {{ fill: var(--n{i}); }}" for i in range(PALETTE))
+    + "\n".join(f"& .n{i} {{ fill: var(--n{i}); }}" for i in range(PALETTE)),
 )
 
 
@@ -177,7 +181,8 @@ def render_chips_svg(design: PhysicalDesign, catalog: Catalog, bom: Bom, title: 
     height = y + MARGIN
 
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" class="ttl-chips" '
+        f'width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img">'
         f"<title>{escape(title or 'Vista de chips')}</title>"
         f"<style>{STYLE}</style>"

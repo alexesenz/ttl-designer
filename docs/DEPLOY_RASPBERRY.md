@@ -52,8 +52,8 @@ curl -s http://$(tailscale ip -4):8040/health # por la interfaz de Tailscale
 El `commit` de `/health` debe coincidir con `git rev-parse --short HEAD`. Si no coincide,
 el servicio no se reinició después de actualizar.
 
-Desde otro equipo: `http://<ip-lan-de-la-pi>:8040/docs` en la red local, o
-`http://<nombre-tailscale>:8040/docs` desde cualquier dispositivo de la tailnet.
+Desde otro equipo: la interfaz en `http://<ip-lan-de-la-pi>:8040/` en la red local, o
+`http://<nombre-tailscale>:8040/` desde cualquier dispositivo de la tailnet; la API en `/docs`.
 
 ## Actualizar
 

@@ -35,7 +35,7 @@ def test_full_adder_bom():
     assert caps[1].refs == ["C3"] and caps[1].value == "10 µF"
     (pullup,) = lines(bom, LineKind.RESISTOR)
     assert pullup.refs == ["R1"] and pullup.value == "1 kΩ"
-    assert bom.gnd_pins == ["U2.10", "U2.12", "U2.13", "U2.9"]
+    assert bom.gnd_pins == ["U2.9", "U2.10", "U2.12", "U2.13"]
 
 
 def test_catalog_gaps_are_reported_not_hidden():
