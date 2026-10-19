@@ -31,3 +31,4 @@ el código resuelva aquí.
 | [`10-vista-de-chips.md`](10-vista-de-chips.md) | §SVG | Vista de chips en SVG: etiquetas de red por pin y tabla de conexiones |
 | [`11-esquematico-logico.md`](11-esquematico-logico.md) | §ESQUEMATICO | Esquemático lógico: capas por nivel, ruteo por canales con carriles |
 | [`12-frontend.md`](12-frontend.md) | §FRONTEND | Interfaz web: Jinja2 + htmx, estado en la URL, sin compilación |
+| [`13-banco-de-prueba-pico2.md`](13-banco-de-prueba-pico2.md) | §BANCO-PICO | PROPUESTA: banco de prueba con Raspberry Pi Pico 2 y MicroPython |
