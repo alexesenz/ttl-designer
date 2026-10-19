@@ -83,8 +83,8 @@ legend { font-size: 12px; color: var(--muted); margin-bottom: 4px; padding: 0; }
 .chk { display: flex; gap: 8px; align-items: center; font-weight: 400; font-size: 13px; min-height: 28px; }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-.busy { display: none; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
-.busy.htmx-request { display: inline-flex; }
+.busy { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+.busy[hidden] { display: none; }
 .spinner { width: 14px; height: 14px; border: 2px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }

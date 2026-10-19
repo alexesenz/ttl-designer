@@ -6,11 +6,11 @@
   <meta name="color-scheme" content="light dark">
   <meta name="htmx-config" content='{"includeIndicatorStyles": false, "allowEval": false, "allowScriptTags": false, "selfRequestsOnly": true}'>
   <title>{% if v.has_result %}{{ v.data.title }} · {% endif %}TTL Designer</title>
-  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/static/app.css">
-  <script src="/static/theme.js"></script>
-  <script src="/static/vendor/htmx-2.0.4.min.js" defer></script>
-  <script src="/static/app.js" defer></script>
+  <link rel="icon" href="static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="static/app.css">
+  <script src="static/theme.js"></script>
+  <script src="static/vendor/htmx-2.0.4.min.js" defer></script>
+  <script src="static/app.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#results">Saltar a los resultados</a>
@@ -19,13 +19,13 @@
   <div class="brand">
     <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="4" width="14" height="20" rx="2"/><path d="M7 9H3M7 14H3M7 19H3M21 9h4M21 14h4M21 19h4"/><path d="M12 4a2 2 0 0 0 4 0"/></svg>
     <div>
-      <a href="/" class="brand-name">TTL Designer</a>
+      <a href="./" class="brand-name">TTL Designer</a>
       <span class="brand-sub">Circuitos combinacionales con 74LS</span>
     </div>
   </div>
   <nav aria-label="Enlaces">
     <a href="https://github.com/alexesenz/ttl-designer/tree/main/docs/decisions">Decisiones de diseño</a>
-    <a href="/docs">API</a>
+    <a href="docs">API</a>
     <button type="button" class="btn" id="theme-toggle" aria-label="Cambiar tema" hidden>
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 0 0 12z" fill="currentColor"/></svg>
       <span id="theme-label">Tema</span>
@@ -36,8 +36,8 @@
 <main class="workspace">
   <section class="spec" aria-labelledby="spec-h">
     <h2 id="spec-h" class="eyebrow">Especificación</h2>
-    <form id="spec" action="/" method="get"
-          hx-get="/" hx-target="#results" hx-swap="innerHTML" hx-push-url="true" hx-indicator="#busy">
+    <form id="spec" action="./" method="get"
+          hx-get="./" hx-target="#results" hx-swap="innerHTML">
       <input type="hidden" name="f" value="1">
       <div class="field">
         <label for="eq">Ecuaciones</label>
@@ -84,7 +84,7 @@
           <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6.5 9.5l3-3M5 7L3.5 8.5a2.5 2.5 0 0 0 3.5 3.5L8.5 10.5M11 9l1.5-1.5A2.5 2.5 0 0 0 9 4L7.5 5.5"/></svg>
           <span>Copiar enlace</span>
         </button>
-        <span id="busy" class="busy" role="status"><span class="spinner" aria-hidden="true"></span> Calculando…</span>
+        <span id="busy" class="busy" role="status" hidden><span class="spinner" aria-hidden="true"></span> Calculando…</span>
       </div>
       <p class="help">El diseño vive en la URL: compártelo copiando el enlace.</p>
     </form>

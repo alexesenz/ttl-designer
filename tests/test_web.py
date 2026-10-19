@@ -40,7 +40,7 @@ def test_empty_page_has_form_examples_and_security_headers():
     assert "script-src 'self'" in r.headers["content-security-policy"]
     doc = parse(r.text)
     form = next(a for t, a in doc.tags if t == "form")
-    assert form["id"] == "spec" and form["method"] == "get" and form["hx-get"] == "/"
+    assert form["id"] == "spec" and form["method"] == "get" and form["hx-get"] == "./"
     assert "Sin resultados todavía" in r.text
     assert r.text.count("data-example") == 5
 
@@ -49,7 +49,7 @@ def test_no_inline_scripts_and_assets_are_local():
     r = client.get("/", params={"eq": FULL_ADDER})
     doc = parse(r.text)
     scripts = [a for t, a in doc.tags if t == "script"]
-    assert scripts and all(a.get("src", "").startswith("/static/") for a in scripts)
+    assert scripts and all(a.get("src", "").startswith("static/") for a in scripts)
     assert not re.search(r"<script(?![^>]*\bsrc=)[^>]*>", r.text)
     assert not any(a.get("href", "").startswith("http") for t, a in doc.tags if t == "link")
     for path in (
@@ -82,7 +82,7 @@ def test_three_axes_are_reported_separately():
         assert label in r.text
 
 
-def test_htmx_returns_fragment_with_oob_error_slot_and_canonical_url():
+def test_htmx_returns_fragment_with_oob_error_slot_and_canonical_query():
     r = client.get(
         "/",
         params={
@@ -96,8 +96,7 @@ def test_htmx_returns_fragment_with_oob_error_slot_and_canonical_url():
     assert r.status_code == 200
     assert "<html" not in r.text
     assert 'id="eq-error" hx-swap-oob="true"' in r.text
-    pushed = r.headers["HX-Push-Url"]
-    assert parse_qs(pushed.split("?", 1)[1]) == {"eq": [FULL_ADDER]}
+    assert parse_qs(r.headers["X-TTL-Query"]) == {"eq": [FULL_ADDER]}
 
 
 def test_parse_error_shows_caret_and_hint():
@@ -192,3 +191,49 @@ def test_vendored_htmx_matches_declared_checksum():
     js = Path(__file__).parent.parent / "ttl_designer/web/static/vendor/htmx-2.0.4.min.js"
     notice = (Path(__file__).parent.parent / "THIRD_PARTY_NOTICES.md").read_text()
     assert hashlib.sha256(js.read_bytes()).hexdigest() in notice
+
+
+# --- detrás de un proxy con subruta (p. ej. tailscale serve --set-path /ttl) --------
+
+
+def prefixed_client():
+    from starlette.applications import Starlette
+    from starlette.routing import Mount
+
+    return TestClient(Starlette(routes=[Mount("/ttl", app=app)]))
+
+
+def internal_urls(html):
+    doc = parse(html)
+    out = []
+    for _, a in doc.tags:
+        for attr in ("href", "src", "action", "hx-get"):
+            v = a.get(attr)
+            if v and not v.startswith(("http://", "https://", "#", "mailto:")):
+                out.append(v)
+    return out
+
+
+def test_internal_urls_are_relative():
+    r = client.get("/", params={"eq": FULL_ADDER})
+    urls = internal_urls(r.text)
+    assert urls and not [u for u in urls if u.startswith("/")]
+
+
+def test_page_works_under_a_path_prefix():
+    from urllib.parse import urljoin
+
+    c = prefixed_client()
+    base = "http://testserver/ttl/"
+    page = c.get(base + "?" + urlencode({"eq": FULL_ADDER}))
+    assert page.status_code == 200 and "Equivalente" in page.text
+    for u in internal_urls(page.text):
+        target = urljoin(page.url.__str__(), u.replace("&amp;", "&"))
+        assert target.startswith(base), (u, target)
+        assert c.get(target).status_code == 200, target
+
+
+def test_busy_indicator_hidden_without_css_or_js():
+    r = client.get("/")
+    busy = next(a for _, a in parse(r.text).tags if a.get("id") == "busy")
+    assert "hidden" in busy

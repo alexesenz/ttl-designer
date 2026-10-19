@@ -55,6 +55,23 @@ el servicio no se reinició después de actualizar.
 Desde otro equipo: la interfaz en `http://<ip-lan-de-la-pi>:8040/` en la red local, o
 `http://<nombre-tailscale>:8040/` desde cualquier dispositivo de la tailnet; la API en `/docs`.
 
+## HTTPS por Tailscale (`tailscale serve`)
+
+`tailscale serve` publica el servicio con HTTPS solo dentro de la tailnet (no es Funnel), con
+un nombre `https://<equipo>.<tailnet>.ts.net`. La interfaz usa rutas relativas, así que
+funciona tanto en la raíz del nombre como en una subruta:
+
+```bash
+tailscale serve status                                    # qué está publicado y dónde
+tailscale serve --bg http://127.0.0.1:8040                # en la raíz, si no hay otro servicio ahí
+tailscale serve --bg --set-path /ttl http://127.0.0.1:8040   # en una subruta, si la raíz está ocupada
+```
+
+Con subruta, entra **con la barra final**: `https://<equipo>.<tailnet>.ts.net/ttl/`. Sin la
+barra (`…/ttl`), el navegador resuelve las rutas relativas contra la raíz y la página sale
+sin estilos. Confirma la sintaxis exacta con `tailscale serve --help`, porque cambia entre
+versiones del cliente.
+
 ## Actualizar
 
 ```bash
@@ -113,6 +130,7 @@ La aplicación **no tiene autenticación**. La exposición está acotada por la 
 |---|---|---|
 | `install.sh` dice que el puerto está en uso | otro servicio en 8040 | `ss -ltnp 'sport = :8040'`; preguntar antes de tocarlo |
 | el servicio reinicia en bucle | dependencia faltante o error al importar | `journalctl -u ttl-designer -n 50` |
+| la página sale sin estilos y "Calculando…" no avanza | se abrió una subruta de `tailscale serve` sin la barra final, o el servicio corre una versión anterior a las rutas relativas | entra a `…/ttl/`; `git pull --ff-only && deploy/install.sh` |
 | responde en 127.0.0.1 pero no desde la LAN | ufw o escucha en 127.0.0.1 | `ss -ltnp` debe mostrar `0.0.0.0:8040`; reglas de ufw |
 | no responde por Tailscale | Tailscale caído o sin sesión | `tailscale status`; `sudo systemctl status tailscaled` |
 | `/health` muestra un commit viejo | no se reinició tras `git pull` | `sudo systemctl restart ttl-designer` |

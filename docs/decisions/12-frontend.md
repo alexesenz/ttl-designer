@@ -24,8 +24,8 @@ vive en el servidor y los diagramas se generan en él (§SVG, §ESQUEMATICO).
   mostrar; los tres ejes de §EJES llegan por separado a la plantilla.
 - **Estado en la URL** (decisión por defecto, el usuario no eligió otra): ecuaciones,
   don't-cares y opciones van en la query string; el enlace es el diseño. Sin base de datos
-  ni cuentas. El servidor responde `HX-Push-Url` con la URL canónica (solo campos que
-  difieren del defecto).
+  ni cuentas. El servidor manda la query canónica (solo campos que difieren del defecto);
+  ver Consecuencias.
 - **Cálculo explícito** con botón o Ctrl+Enter. No se recalcula al teclear, porque la
   minimización puede tardar segundos cerca de los límites.
 - **Mejora progresiva**: el formulario es un `GET` normal. Con htmx se actualiza solo
@@ -52,6 +52,16 @@ vive en el servidor y los diagramas se generan en él (§SVG, §ESQUEMATICO).
   pista para el paréntesis sin cerrar.
 
 ## Consecuencias
+
+- **Rutas relativas, historial propio.** Todas las URL internas (estáticos, formulario,
+  ejemplos, descargas) son relativas, para que la interfaz funcione igual en la raíz que
+  detrás de un proxy que la monta en una subruta (`tailscale serve --set-path /ttl`, que
+  quita el prefijo antes de llegar a la app). No se usa `hx-push-url`: htmx 2 normaliza esas
+  URL contra la raíz y pierde la subruta. El servidor manda la query canónica en
+  `X-TTL-Query` y `app.js` la agrega a `location.pathname`; atrás/adelante recarga la URL.
+  La única condición es entrar a la subruta con la barra final (`/ttl/`).
+- El indicador "Calculando…" está oculto por atributo `hidden` y solo `app.js` lo muestra,
+  así no queda visible si faltaran el CSS o el JavaScript.
 
 - Verificado en Chromium con Playwright: flujo completo, teclado en pestañas, error por
   htmx con `aria-invalid`, ejemplos, tema manual, teléfono sin scroll horizontal.

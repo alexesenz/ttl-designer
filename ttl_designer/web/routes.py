@@ -57,9 +57,11 @@ def index(request: Request) -> Response:
     resp = templates.TemplateResponse(request, name, ctx)
     resp.headers["Content-Security-Policy"] = CSP
     resp.headers["X-Content-Type-Options"] = "nosniff"
-    if partial and view.state.equations.strip():
-        # URL canónica (sin campos por defecto) en vez de todo el formulario
-        resp.headers["HX-Push-Url"] = f"/?{view.query}"
+    if partial:
+        # Query canónica (solo campos distintos del defecto). El cliente la agrega a su
+        # propia ruta (§FRONTEND): htmx resuelve las URL de historial contra la raíz y
+        # perdería la subruta cuando un proxy monta la app en /algo/.
+        resp.headers["X-TTL-Query"] = view.query if view.state.equations.strip() else ""
     return resp
 
 

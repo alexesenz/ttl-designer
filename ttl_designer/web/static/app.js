@@ -103,6 +103,15 @@
     if (p.has("eq") && eq.value !== p.get("eq")) eq.value = p.get("eq");
   }
 
+  // Indicador de cálculo: oculto por atributo (así no queda visible si faltara el CSS)
+  function setBusy(on) {
+    var busy = document.getElementById("busy");
+    if (busy) busy.hidden = !on;
+  }
+  document.body.addEventListener("htmx:beforeRequest", function () { setBusy(true); });
+  document.body.addEventListener("htmx:afterRequest", function () { setBusy(false); });
+  document.body.addEventListener("htmx:sendError", function () { setBusy(false); });
+
   document.addEventListener("DOMContentLoaded", function () {
     setupTheme();
     setupForm();
@@ -122,6 +131,19 @@
       }
     }
   });
-  // htmx actualiza la URL después del swap; un ejemplo cargado llega al editor aquí.
-  document.body.addEventListener("htmx:pushedIntoHistory", syncEditorFromUrl);
+  // Historial propio: la ruta actual (conserva una subruta de proxy) + la query canónica
+  // que manda el servidor. No se usa hx-push-url porque htmx normaliza contra la raíz.
+  document.body.addEventListener("htmx:afterRequest", function (ev) {
+    var xhr = ev.detail && ev.detail.xhr;
+    if (!xhr || !ev.detail.successful) return;
+    var q = xhr.getResponseHeader("X-TTL-Query");
+    if (q === null) return;
+    var url = window.location.pathname + (q ? "?" + q : "");
+    if (url !== window.location.pathname + window.location.search) {
+      window.history.pushState({ ttl: true }, "", url);
+    }
+    syncEditorFromUrl();
+  });
+  // Atrás/adelante: el estado vive en la URL, basta con volver a cargarla.
+  window.addEventListener("popstate", function () { window.location.reload(); });
 })();
